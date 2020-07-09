@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">first-test</string>
+    <string name="mortarNav">Mortar</string>
+    <string name="indirectNav">Indirect</string>
+    <string name="directNav">Direct</string>
+    <string name="X">X:</string>
+    <string name="Y">Y:</string>
+    <string name="alt">Altitude:</string>
+    <string name="hint">0000</string>
+    <string name="m252">m252</string>
+    <string name="m119d30">m119/d30</string>
+    <string name="podnos">2b14</string>
+    <string name="dvab11">2b11</string>
+</resources>
