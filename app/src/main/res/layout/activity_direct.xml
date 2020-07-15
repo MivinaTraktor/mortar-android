@@ -60,17 +60,17 @@
                 android:textSize="36sp"
                 android:textAlignment="center"/>
         <TextView
-                android:text="@string/alt"
+                android:text="Altitude difference:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="36sp"
                 android:layout_marginHorizontal="20dp"/>
         <EditText
-                android:inputType="number"
+                android:inputType="numberSigned"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint"
-                android:id="@+id/targetAltDirect"
+                android:id="@+id/altDifDirect"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
                 android:textAlignment="center"/>

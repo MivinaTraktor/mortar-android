@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_direct.*
 class DirectActivity : AppCompatActivity() {
 
     private var range = 0.0
-    private var altitude = 0
+    private var altDif = 0
     private lateinit var solution: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +21,8 @@ class DirectActivity : AppCompatActivity() {
 
     fun onClickCalculate(view: View) {
         range = targetRange.text.toString().toDouble()
-        altitude = targetAltDirect.text.toString().toIntOrNull() ?: 0
+        altDif = altDifDirect.text.toString().toIntOrNull() ?: 0
         solution = findViewById(R.id.solDir)
-        val altDif = altitude - mCoordinates[2]
         solution.text = find(range, altDif)
     }
 
@@ -54,6 +53,8 @@ class DirectActivity : AppCompatActivity() {
                 if (range.toInt() in minMax[0]..minMax[1]) {
                     line = reader.readLine()
                     valuesPlus = line.split(" ").map { it.toInt() }
+                    if (valuesPlus[0] == maxTotal)
+                        break@mainLoop
                     valuesMinus = valuesPlus
                     while (valuesPlus[0] <= range.toInt()) {
                         line = reader.readLine()
