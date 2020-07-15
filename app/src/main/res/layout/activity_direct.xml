@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@id/linearLayout" android:id="@+id/linearLayout2">
         <TextView
                 android:text="Direct fire"
                 android:layout_width="match_parent"
@@ -70,17 +70,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint"
-                android:id="@+id/targetAlt"
+                android:id="@+id/targetAltDirect"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
                 android:textAlignment="center"/>
-        <TextView
-                android:text="Solution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textAlignment="viewStart" android:layout_margin="20dp"
-                android:id="@+id/solDir"/>
     </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+                android:text="@string/calculate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/calculateDirect"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp"
+                android:onClick="onClickCalculate"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/solDir"
+
+                app:layout_constraintTop_toBottomOf="@+id/calculateDirect"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
