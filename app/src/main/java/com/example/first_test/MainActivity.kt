@@ -3,8 +3,7 @@ package com.example.first_test
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -13,6 +12,32 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val spinner: Spinner = findViewById(R.id.digitsSpinner)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.digitsArray,
+            android.R.layout.simple_spinner_item
+        ).also { adapter->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Toast.makeText(applicationContext, "Select format of coordinates", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                rangeMultiplier = when (pos) {
+                    0 -> 100
+                    1 -> 10
+                    else -> 1
+                }
+            }
+
+        }
     }
 
     fun onClickIndirect(view: View) {

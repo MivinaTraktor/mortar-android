@@ -67,6 +67,21 @@
                          android:text="@string/m252"
                          android:onClick="onMortarSelected"/>
         </RadioGroup>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+            <TextView
+                    android:text="Coordinate digits:"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_weight="1"/>
+            <Spinner android:layout_width="wrap_content"
+                     android:id="@+id/digitsSpinner"
+                     android:layout_height="wrap_content"/>
+        </LinearLayout>
         <TextView
                 android:text="Mortar coordinates"
                 android:layout_width="match_parent"

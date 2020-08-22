@@ -12,4 +12,9 @@
     <string name="podnos">2b14</string>
     <string name="dvab11">2b11</string>
     <string name="calculate">Calculate</string>
+    <string-array name="digitsArray">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

@@ -1,8 +1,10 @@
 package com.example.first_test
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_indirect.*
@@ -90,7 +92,7 @@ class IndirectActivity : AppCompatActivity() {
         val tgtY = tCoordinates[1]
         val tgtAlt = tCoordinates[2]
         val altDif = tgtAlt - alt
-        val range = hypot(((tgtX - x).toDouble()), ((tgtY - y).toDouble())) * 10
+        val range = hypot(((tgtX - x).toDouble()), ((tgtY - y).toDouble())) * rangeMultiplier
         val angle: Float
         if ((tgtX - x) == 0) {
             if ((tgtY - y) > 0)
@@ -110,10 +112,10 @@ class IndirectActivity : AppCompatActivity() {
         azCor = azimuth_correct * HI
         string += "Range = ${range.roundToInt()}\n"
         string += "Azimuth = ${"%.1f".format(azimuth)} / $azimuth_mil\n"
-        //print("${LOW}m-> = +${((azimuth_correct * LOW).toInt())}\t")
-        //print("${MED}m-> = +${((azimuth_correct * MED).toInt())}\t")
-        //println("${HI}m-> = +${((azimuth_correct * HI).toInt())}")
-        string += "Altitude difference = $altDif\n\n"
+        string += "${LOW}m-> = +${((azimuth_correct * LOW).toInt())}\t"
+        string += "${MED}m-> = +${((azimuth_correct * MED).toInt())}\t"
+        string += "${HI}m-> = +${((azimuth_correct * HI).toInt())}\n"
+        //string += "Altitude difference = $altDif\n\n"
         string += find(range, altDif)
         return string
     }

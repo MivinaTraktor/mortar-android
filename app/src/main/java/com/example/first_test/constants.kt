@@ -1,6 +1,7 @@
 package com.example.first_test
 
 var mCoordinates = Array(3) { 0 }
+var rangeMultiplier = 10
 var lastElev = 0F
 var lastAz = 0.0
 var elCor = 0F
