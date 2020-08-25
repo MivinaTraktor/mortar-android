@@ -90,7 +90,7 @@
                 android:textSize="40sp"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="8dp"/>
         <TextView
                 android:text="@string/X"
                 android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint"
+                android:hint="@string/zeros"
                 android:id="@+id/mortarX"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
@@ -116,7 +116,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint"
+                android:hint="@string/zeros"
                 android:id="@+id/mortarY"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
@@ -131,7 +131,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint"
+                android:hint="@string/zeros"
                 android:id="@+id/mortarAlt"
                 android:textAlignment="center"
                 android:textSize="36sp"

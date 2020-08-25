@@ -1,17 +1,23 @@
 <resources>
-    <string name="app_name">first-test</string>
+    <string name="app_name">Mortar calculator</string>
     <string name="mortarNav">Mortar</string>
     <string name="indirectNav">Indirect</string>
     <string name="directNav">Direct</string>
     <string name="X">X:</string>
     <string name="Y">Y:</string>
     <string name="alt">Altitude:</string>
-    <string name="hint">0000</string>
+    <string name="zeros">0000</string>
+    <string name="zero">0</string>
     <string name="m252">m252</string>
     <string name="m119d30">m119/d30</string>
     <string name="podnos">2b14</string>
     <string name="dvab11">2b11</string>
     <string name="calculate">Calculate</string>
+    <string name="clear">Clear</string>
+    <string name="reset">Reset</string>
+    <string name="elevation">Elevation</string>
+    <string name="ok">OK</string>
+    <string name="azimuth">Azimuth</string>
     <string-array name="digitsArray">
         <item>3</item>
         <item>4</item>

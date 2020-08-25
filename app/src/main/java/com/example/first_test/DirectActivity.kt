@@ -19,7 +19,7 @@ class DirectActivity : AppCompatActivity() {
         solution = findViewById(R.id.solDir)
     }
 
-    fun onClickCalculate(view: View) {
+    /*fun onClickCalculate(view: View) {
         range = targetRange.text.toString().toDouble()
         altDif = altDifDirect.text.toString().toIntOrNull() ?: 0
         solution = findViewById(R.id.solDir)
@@ -76,5 +76,5 @@ class DirectActivity : AppCompatActivity() {
             }
             return string
         }
-    }
+    }*/
 }
