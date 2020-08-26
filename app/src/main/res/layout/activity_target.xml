@@ -133,16 +133,28 @@
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="@+id/textView7" app:layout_constraintTop_toBottomOf="@+id/textView7"
             android:layout_marginTop="16dp"/>
-    <Button
-            android:text="@string/reset"
-            android:id="@+id/buttonReset"
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:onClick="onClickReset"
-            app:layout_constraintTop_toBottomOf="@+id/buttonCorrect" android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.35"/>
+            android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/buttonCorrect"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
+        <Button
+                android:text="@string/reset"
+                android:id="@+id/buttonReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:onClick="onClickReset"
+        />
+        <Button
+                android:text="Anchor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonAnchor"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:onClick="onClickAnchor"
+        />
+    </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -171,15 +183,4 @@
                 android:textAlignment="center"
                 android:id="@+id/fieldFwdBack"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <Button
-            android:text="Anchor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonAnchor"
-            app:layout_constraintTop_toTopOf="@+id/buttonReset"
-            app:layout_constraintBottom_toBottomOf="@+id/buttonReset"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:onClick="onClickAnchor"
-            app:layout_constraintVertical_bias="1.0" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.65"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
