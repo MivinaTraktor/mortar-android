@@ -6,6 +6,7 @@
     <string name="X">X:</string>
     <string name="Y">Y:</string>
     <string name="alt">Altitude:</string>
+    <string name="digitsNotSelected">Select format</string>
     <string name="zeros">0000</string>
     <string name="zero">0</string>
     <string name="m252">m252</string>

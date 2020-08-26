@@ -42,6 +42,8 @@ class TargetActivity : AppCompatActivity() {
         leftRight = enterLeftRight.text.toString().toIntOrNull() ?: 0
         elNew = elevation + (elCor * fwdBack)
         azNew = azimuth + (azCor * leftRight).toInt()
+        if (azNew < 0) azNew += 6400
+        if (azNew > 6400) azNew -= 6400
         fieldEl.text = "%.1f".format(elNew)
         fieldAz.text = azNew.toString()
         enterLeftRight.clearFocus()

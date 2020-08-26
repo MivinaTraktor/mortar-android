@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.VectorEnabledTintResources
 import kotlinx.android.synthetic.main.activity_indirect.*
 import kotlin.math.PI
 import kotlin.math.atan
@@ -22,10 +23,18 @@ class IndirectActivity : AppCompatActivity() {
     private var elev = 0F
     private var range = 0F
     private var altDif = 0F
+    private lateinit var xLabel: EditText
+    private lateinit var yLabel: EditText
+    private lateinit var altLabel: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_indirect)
+        xLabel = findViewById(R.id.targetX)
+        yLabel = findViewById(R.id.targetY)
+        altLabel = findViewById(R.id.targetAltIndirect)
+        xLabel.hint = zeros
+        yLabel.hint = zeros
     }
 
     fun onClickMortar(view: View) {
@@ -42,8 +51,7 @@ class IndirectActivity : AppCompatActivity() {
         targetArr[0] = targetX.text.toString().toIntOrNull() ?: 0
         targetArr[1] = targetY.text.toString().toIntOrNull() ?: 0
         targetArr[2] = targetAltIndirect.text.toString().toIntOrNull() ?: 0
-        val check = target(mCoordinates, targetArr)
-        if (check < 0) Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
+        if (!target(mCoordinates, targetArr)) Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
         else {
             val finalArr: FloatArray = floatArrayOf(azimuth_mil, azimuth_correct, charge.toFloat(), plusCorrect, elev, range, altDif)
             val intent = Intent(this, TargetActivity::class.java)
@@ -53,15 +61,12 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickClear(view: View) {
-        val x = findViewById<EditText>(R.id.targetX)
-        val y = findViewById<EditText>(R.id.targetY)
-        val alt = findViewById<EditText>(R.id.targetAltIndirect)
-        x.text?.clear()
-        y.text?.clear()
-        alt.text?.clear()
+        xLabel.text?.clear()
+        yLabel.text?.clear()
+        altLabel.text?.clear()
     }
 
-    private fun find(range: Float, altDif: Float): Int {
+    private fun find(range: Float, altDif: Float): Boolean {
         var valuesMinus: List<Int>
         var valuesPlus: List<Int>
         charge = 0
@@ -70,7 +75,7 @@ class IndirectActivity : AppCompatActivity() {
             var minMax = line.split(" ").map { it.toInt() }
             val maxTotal = minMax[1]
             if (range.toInt() !in minMax[0]..minMax[1]) {
-                return -1
+                return false
             }
             line = reader.readLine()
             mainLoop@ while (line.isNotEmpty()) {
@@ -88,8 +93,8 @@ class IndirectActivity : AppCompatActivity() {
                     }
                     val sol = Solution(valuesMinus[1], valuesPlus[1], valuesMinus[2], valuesPlus[2])
                     calc(sol, altDif, range)
-                    return 1
-                } else if (range.toInt() < minMax[0]) return 1
+                    return true
+                } else if (range.toInt() < minMax[0]) return true
                 charge++
                 while (line.isNotEmpty()) {
                     val rangeTemp = line.split(" ").map { it.toInt() }
@@ -100,10 +105,10 @@ class IndirectActivity : AppCompatActivity() {
                 line = reader.readLine()
             }
         }
-        return 1
+        return true
     }
 
-    private fun target (mCoordinates: Array<Int>, tCoordinates: IntArray): Int {
+    private fun target (mCoordinates: Array<Int>, tCoordinates: IntArray): Boolean {
         val x = mCoordinates[0]
         val y = mCoordinates[1]
         val alt = mCoordinates[2]

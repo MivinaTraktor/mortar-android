@@ -9,10 +9,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var xLabel: EditText
+    private lateinit var yLabel: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        xLabel = findViewById(R.id.mortarX)
+        yLabel = findViewById(R.id.mortarY)
         val spinner: Spinner = findViewById(R.id.digitsSpinner)
         ArrayAdapter.createFromResource(
             this,
@@ -30,11 +34,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                rangeMultiplier = when (pos) {
-                    0 -> 100
-                    1 -> 10
-                    else -> 1
+                when (pos) {
+                    0 -> {
+                        rangeMultiplier = 100
+                        zeros = "000"
+                    }
+                    1 -> {
+                        rangeMultiplier = 10
+                        zeros = "0000"
+                    }
+                    else -> {
+                        rangeMultiplier = 1
+                        zeros = "00000"
+                    }
                 }
+                xLabel.hint = zeros
+                yLabel.hint = zeros
             }
 
         }
