@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.VectorEnabledTintResources
 import kotlinx.android.synthetic.main.activity_indirect.*
 import kotlin.math.PI
 import kotlin.math.atan
@@ -15,12 +13,8 @@ import kotlin.math.hypot
 
 class IndirectActivity : AppCompatActivity() {
 
-    private var targetArr = IntArray(3)
     private var azimuth_mil = 0F
     private var azimuth_correct = 0F
-    private var charge = 0
-    private var plusCorrect = 0F
-    private var elev = 0F
     private var range = 0F
     private var altDif = 0F
     private lateinit var xLabel: EditText
@@ -48,14 +42,23 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickCalculate(view: View) {
+        val targetArr = IntArray(3)
         targetArr[0] = targetX.text.toString().toIntOrNull() ?: 0
         targetArr[1] = targetY.text.toString().toIntOrNull() ?: 0
         targetArr[2] = targetAltIndirect.text.toString().toIntOrNull() ?: 0
-        if (!target(mCoordinates, targetArr)) Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
+        target(mCoordinates, targetArr)
+        if (range.toInt() !in mortarArray!!.first().min..mortarArray!!.last().max)
+            Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
         else {
-            val finalArr: FloatArray = floatArrayOf(azimuth_mil, azimuth_correct, charge.toFloat(), plusCorrect, elev, range, altDif)
+            val solutions = find(range)
             val intent = Intent(this, TargetActivity::class.java)
-            intent.putExtra("solution", finalArr)
+            solutions.forEachIndexed { index, values ->
+                val solution = calc(values, altDif, range)
+                intent.putExtra("sol$index", solution)
+            }
+            intent.putExtra("azimuth", azimuth_mil)
+            intent.putExtra("azimuthCor", azimuth_correct)
+            intent.putExtra("Number of solutions", solutions.size)
             startActivity(intent)
         }
     }
@@ -66,49 +69,32 @@ class IndirectActivity : AppCompatActivity() {
         altLabel.text?.clear()
     }
 
-    private fun find(range: Float, altDif: Float): Boolean {
-        var valuesMinus: List<Int>
-        var valuesPlus: List<Int>
-        charge = 0
-        applicationContext.assets.open(mortarName).bufferedReader().use { reader ->
-            var line = reader.readLine()
-            var minMax = line.split(" ").map { it.toInt() }
-            val maxTotal = minMax[1]
-            if (range.toInt() !in minMax[0]..minMax[1]) {
-                return false
-            }
-            line = reader.readLine()
-            mainLoop@ while (line.isNotEmpty()) {
-                minMax = line.split(" ").map { it.toInt() }
-                if (range.toInt() in minMax[0]..minMax[1]) {
-                    line = reader.readLine()
-                    valuesPlus = line.split(" ").map { it.toInt() }
-                    if (valuesPlus[0] == maxTotal)
-                        break@mainLoop
-                    valuesMinus = valuesPlus
-                    while (valuesPlus[0] <= range.toInt()) {
-                        line = reader.readLine()
-                        valuesMinus = valuesPlus
-                        valuesPlus = line.split(" ").map { it.toInt() }
-                    }
-                    val sol = Solution(valuesMinus[1], valuesPlus[1], valuesMinus[2], valuesPlus[2])
-                    calc(sol, altDif, range)
-                    return true
-                } else if (range.toInt() < minMax[0]) return true
-                charge++
-                while (line.isNotEmpty()) {
-                    val rangeTemp = line.split(" ").map { it.toInt() }
-                    if (rangeTemp[0] == maxTotal)
-                        break@mainLoop
-                    line = reader.readLine()
+    private fun find(range: Float): List<Values> {
+        val resultArray: MutableList<Values> = mutableListOf()
+        val lowRounded = (range - (range % RNG_INCR)).toInt()
+        val highRounded = lowRounded + RNG_INCR
+        mortarArray!!.forEachIndexed { charge, values ->
+            if (range.toInt() in values.min..values.max) {
+                if (highRounded in values.min..values.max) {
+                    resultArray.add(
+                        Values(
+                            charge, values.valArray[lowRounded]!!.elevation, values.valArray[highRounded]!!.elevation,
+                            values.valArray[lowRounded]!!.altCorrection, values.valArray[highRounded]!!.altCorrection
+                        )
+                    )
+                } else {
+                    resultArray.add(
+                        Values(
+                            charge, values.valArray[lowRounded]!!.elevation, values.valArray[lowRounded]!!.elevation,
+                            values.valArray[lowRounded]!!.altCorrection, values.valArray[lowRounded]!!.altCorrection
+                        ))
                 }
-                line = reader.readLine()
             }
         }
-        return true
+        return resultArray
     }
 
-    private fun target (mCoordinates: Array<Int>, tCoordinates: IntArray): Boolean {
+    private fun target (mCoordinates: Array<Int>, tCoordinates: IntArray) {
         val x = mCoordinates[0]
         val y = mCoordinates[1]
         val alt = mCoordinates[2]
@@ -130,13 +116,12 @@ class IndirectActivity : AppCompatActivity() {
             azimuth = 270 - angle
         else
             azimuth = 90 - angle
-        azimuth_mil = (azimuth * MIL)
+        azimuth_mil = azimuth * MIL
         azimuth_correct = (atan(1 / range) * 180 / PI * MIL).toFloat()
-        return find(range, altDif)
     }
 
-    private fun calc(sol: Solution, alt_dif: Float, range: Float) {
-        val (elMinus, elPlus, altMinus, altPlus) = sol
+    private fun calc(sol: Values, alt_dif: Float, range: Float): FloatArray {
+        val (charge, elMinus, elPlus, altMinus, altPlus) = sol
         val difference: Float
         if (range % RNG_INCR == 0F)
             difference = RNG_INCR.toFloat()
@@ -144,9 +129,11 @@ class IndirectActivity : AppCompatActivity() {
             difference = range % RNG_INCR
         val altCor100m = altMinus + ((altPlus - altMinus) / RNG_INCR * difference)
         val altCor = altCor100m / ALT_INCR * alt_dif
-        elev = elMinus.toFloat() + ((elPlus - elMinus).toFloat() / RNG_INCR.toFloat() * difference) -
+        val elev = elMinus.toFloat() + ((elPlus - elMinus).toFloat() / RNG_INCR.toFloat() * difference) -
                 altCor
-        plusCorrect = -((elMinus - elPlus).toFloat() / RNG_INCR.toFloat())
-        return
+        val plusCorrect = (elMinus - elPlus).toFloat() / RNG_INCR.toFloat()
+        return floatArrayOf(charge.toFloat(), plusCorrect, range, altDif, elev)
     }
 }
+
+

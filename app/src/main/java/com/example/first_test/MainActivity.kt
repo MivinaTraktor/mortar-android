@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.selects.select
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickIndirect(view: View) {
-        if (mortarName == "") { //если не выбран миномет
+        if (mortarArray == null) { //если не выбран миномет
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickDirect(view: View) {
-        if (mortarName == "") { //если не выбран миномет
+        if (mortarArray == null) { //если не выбран миномет
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -87,19 +88,19 @@ class MainActivity : AppCompatActivity() {
             when (view.getId()) {
                 R.id.dvab11Button ->
                     if (view.isChecked) {
-                        mortarName = "2b11.txt"
+                        selectMortar("2b11")
                     }
                 R.id.podnosButton ->
                     if (view.isChecked) {
-                        mortarName = "podnos.txt"
+                        selectMortar("2b14")
                     }
                 R.id.d30Button ->
                     if (view.isChecked) {
-                        mortarName = "d30.txt"
+                        selectMortar("d30")
                     }
                 R.id.m252Button ->
                     if (view.isChecked) {
-                        mortarName = "m252.txt"
+                        selectMortar("m252")
                     }
             }
         }
