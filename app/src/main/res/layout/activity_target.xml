@@ -153,7 +153,8 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/buttonCorrect"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/linearLayout6">
         <Button
                 android:text="@string/reset"
                 android:id="@+id/buttonReset"
@@ -199,4 +200,70 @@
                 android:textAlignment="center"
                 android:id="@+id/fieldFwdBack"/>
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+            android:text="Dispersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6" android:layout_marginTop="32dp"/>
+    <EditText
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/fieldDisp"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp" android:hint="0"
+            android:textAlignment="center"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/fieldDisp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:gravity="center">
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionLeft" android:textAlignment="center"
+                    android:textSize="18sp" android:textColor="@android:color/holo_red_dark"
+                    android:layout_width="70dp"/>
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionLR" android:textAlignment="center"
+                    android:textSize="18sp" android:textColor="@android:color/holo_red_dark"/>
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionRight"
+                    android:textAlignment="center"
+                    android:textSize="18sp" android:textColor="@android:color/holo_red_dark"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:gravity="center">
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionForward"
+                    android:textAlignment="center"
+                    android:textSize="18sp" android:layout_weight="1"
+                    android:textColor="@android:color/holo_green_dark"/>
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionFB" android:textAlignment="center"
+                    android:textSize="18sp" android:layout_weight="1"
+                    android:textColor="@android:color/holo_green_dark"/>
+            <TextView
+                    android:text="@string/zero"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" android:id="@+id/dispersionBack" android:textAlignment="center"
+                    android:textSize="18sp" android:layout_weight="1"
+                    android:textColor="@android:color/holo_green_dark"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

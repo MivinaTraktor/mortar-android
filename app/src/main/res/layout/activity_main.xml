@@ -141,11 +141,6 @@
                 android:textAlignment="center"
                 android:textSize="36sp"
                 android:layout_marginHorizontal="20dp"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Enter to calculate direct solution"
-                android:layout_marginHorizontal="20dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

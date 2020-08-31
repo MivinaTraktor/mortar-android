@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.selects.select
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,6 +56,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickIndirect(view: View) {
+        if (mortarX.text.toString().isEmpty() || mortarY.text.toString().isEmpty() || mortarAlt.text.toString().isEmpty()) {
+            Toast.makeText(applicationContext, "Fill in all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
         if (mortarArray == null) { //если не выбран миномет
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return

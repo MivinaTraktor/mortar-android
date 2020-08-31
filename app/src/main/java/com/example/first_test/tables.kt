@@ -1,21 +1,5 @@
 package com.example.first_test
 
-fun dispersion() {
-    if (lastElev == 0F) {
-        println("Select a target first!")
-        return
-    }
-    print("Enter desired dispersion in m:")
-    val dispM = readLine()!!.toInt()
-    val azDisp = azCor / HI.toDouble() * dispM.toDouble()
-    val elDisp = elCor / HI * dispM
-    println("Dispersion for max charge:")
-    println("\t${(lastAz - azDisp).toInt()} ${lastAz.toInt()} ${(lastAz + azDisp).toInt()}")
-    println("${(lastElev - elDisp).toInt()}")
-    println("${lastElev.toInt()}")
-    println("${(lastElev + elDisp).toInt()}")
-}
-
 fun selectMortar(name: String) {
     mortarArray = when (name) {
         "2b11" -> arrayOf(

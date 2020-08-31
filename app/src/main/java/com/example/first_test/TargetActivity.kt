@@ -1,20 +1,21 @@
 package com.example.first_test
 
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_target.*
 
 class TargetActivity : AppCompatActivity() {
 
-    private lateinit var fieldAz: TextView
-    private lateinit var fieldEl: TextView
-    private lateinit var fieldCh: TextView
     private lateinit var enterLeftRight: TextInputEditText
     private lateinit var enterFwdBack: TextInputEditText
-    private lateinit var fieldRng: TextView
-    private lateinit var fieldAltDif: TextView
     private var elevation = 0F
     private var elNew = 0F
     private var azimuth = 0
@@ -33,6 +34,9 @@ class TargetActivity : AppCompatActivity() {
         elNew = elevation
         azNew = azimuth
         displaySolution()
+        enterLeftRight.clearFocus()
+        enterFwdBack.clearFocus()
+        hideKeyboard()
     }
 
     fun onClickCorrectOk(view: View) {
@@ -42,16 +46,19 @@ class TargetActivity : AppCompatActivity() {
         azNew = azimuth + (azCor * leftRight).toInt()
         if (azNew < 0) azNew += 6400
         else if (azNew > 6400) azNew -= 6400
-        fieldEl.text = "%.1f".format(elNew)
-        fieldAz.text = azNew.toString()
+        textViewEl.text = "%.1f".format(elNew)
+        textViewAz.text = azNew.toString()
         enterLeftRight.clearFocus()
         enterFwdBack.clearFocus()
+        hideKeyboard()
     }
 
     fun onClickAnchor(view: View) {
         elevation = elNew
         azimuth = azNew
         clearFields()
+        enterLeftRight.clearFocus()
+        enterFwdBack.clearFocus()
     }
 
     fun onClickPlus(view: View) {
@@ -75,13 +82,8 @@ class TargetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_target)
-        fieldAz = findViewById(R.id.textViewAz)
-        fieldEl = findViewById(R.id.textViewEl)
-        fieldCh = findViewById(R.id.textViewCh)
         enterLeftRight = findViewById(R.id.fieldLeftRight)
         enterFwdBack = findViewById(R.id.fieldFwdBack)
-        fieldRng = findViewById(R.id.rngLabel)
-        fieldAltDif = findViewById(R.id.altDifLabel)
         solNumber = intent.getIntExtra("Number of solutions", 0)
         for (i in 0 until solNumber) {
             val solution = intent.getFloatArrayExtra("sol$i")!!
@@ -91,23 +93,89 @@ class TargetActivity : AppCompatActivity() {
         updateValues()
         azimuth = intent.getFloatExtra("azimuth", 0F).toInt()
         azCor = intent.getFloatExtra("azimuthCor", 0F)
-        fieldAltDif.text = currentSolution.altDif.toInt().toString()
-        fieldRng.text = currentSolution.range.toInt().toString()
+        altDifLabel.text = currentSolution.altDif.toInt().toString()
+        rngLabel.text = currentSolution.range.toInt().toString()
         displaySolution()
+
+        textViewAz.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val curAz = value.toString().toInt()
+                val disp = fieldDisp.text.toString().toFloatOrNull() ?: 0F
+                val curEl = textViewEl.text.toString().toFloat()
+                setDispersion(disp, curAz, curEl)
+            }
+        })
+
+        textViewEl.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val curEl = value.toString().toFloat()
+                val curAz = textViewAz.text.toString().toInt()
+                val disp = fieldDisp.text.toString().toFloatOrNull() ?: 0F
+                setDispersion(disp, curAz, curEl)
+            }
+        })
+
+        fieldDisp.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val disp = value.toString().toFloatOrNull() ?: 0F
+                val curAz = textViewAz.text.toString().toInt()
+                val curEl = textViewEl.text.toString().toFloat()
+                setDispersion(disp, curAz, curEl)
+            }
+        })
     }
-    fun clearFields() {
+    private fun clearFields() {
         enterFwdBack.text?.clear()
         enterLeftRight.text?.clear()
         enterLeftRight.clearFocus()
         enterFwdBack.clearFocus()
     }
-    fun displaySolution() {
-        fieldCh.text = currentSolution.charge.toInt().toString()
-        fieldAz.text = azimuth.toString()
-        fieldEl.text = "%.1f".format(elevation)
+    private fun displaySolution() {
+        textViewCh.text = currentSolution.charge.toInt().toString()
+        textViewAz.text = azimuth.toString()
+        textViewEl.text = "%.1f".format(elevation)
     }
-    fun updateValues() {
+    private fun updateValues() {
         elevation = currentSolution.elevation
         elCor = currentSolution.plusCorrect
+    }
+
+    private fun setDispersion(disp: Float, curAz: Int, curEl: Float) {
+        dispersionLR.text = curAz.toString()
+        val dispAz = (azCor * disp).toInt()
+        if (curAz + dispAz > 6400)
+            dispersionRight.text = (curAz + dispAz - 6400).toString()
+        else
+            dispersionRight.text = (curAz + dispAz).toString()
+        if (curAz - dispAz < 0)
+            dispersionLeft.text = (curAz - dispAz + 6400).toString()
+        else
+            dispersionLeft.text = (curAz - dispAz).toString()
+        dispersionFB.text = "%.1f".format(curEl)
+        val dispEl = elCor * disp
+        dispersionForward.text = "%.1f".format((curEl - dispEl))
+        dispersionBack.text = "%.1f".format((curEl + dispEl))
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
