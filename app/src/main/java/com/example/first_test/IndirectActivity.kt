@@ -72,7 +72,7 @@ class IndirectActivity : AppCompatActivity() {
     private fun find(range: Float): List<Values> {
         val resultArray: MutableList<Values> = mutableListOf()
         val lowRounded = (range - (range % RNG_INCR)).toInt()
-        val highRounded = lowRounded + RNG_INCR
+        val highRounded = lowRounded + RNG_INCR.toInt()
         mortarArray!!.forEachIndexed { charge, values ->
             if (range.toInt() in values.min..values.max) {
                 if (highRounded in values.min..values.max) {
@@ -122,16 +122,12 @@ class IndirectActivity : AppCompatActivity() {
 
     private fun calc(sol: Values, alt_dif: Float, range: Float): FloatArray {
         val (charge, elMinus, elPlus, altMinus, altPlus) = sol
-        val difference: Float
-        if (range % RNG_INCR == 0F)
-            difference = RNG_INCR.toFloat()
-        else
-            difference = range % RNG_INCR
-        val altCor100m = altMinus + ((altPlus - altMinus) / RNG_INCR * difference)
+        val difference = range % RNG_INCR
+        val altCor100m = altMinus.toFloat() + ((altPlus - altMinus).toFloat() / RNG_INCR * difference)
         val altCor = altCor100m / ALT_INCR * alt_dif
-        val elev = elMinus.toFloat() + ((elPlus - elMinus).toFloat() / RNG_INCR.toFloat() * difference) -
+        val plusCorrect = (elMinus - elPlus).toFloat() / RNG_INCR
+        val elev = elMinus.toFloat() - (plusCorrect * difference) -
                 altCor
-        val plusCorrect = (elMinus - elPlus).toFloat() / RNG_INCR.toFloat()
         return floatArrayOf(charge.toFloat(), plusCorrect, range, altDif, elev)
     }
 }

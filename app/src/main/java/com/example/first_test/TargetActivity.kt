@@ -104,7 +104,7 @@ class TargetActivity : AppCompatActivity() {
             override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val curAz = value.toString().toInt()
                 val disp = fieldDisp.text.toString().toFloatOrNull() ?: 0F
-                val curEl = textViewEl.text.toString().toFloat()
+                val curEl = textViewEl.text.toString().replace(',', '.').toFloat()
                 setDispersion(disp, curAz, curEl)
             }
         })
@@ -114,7 +114,7 @@ class TargetActivity : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val curEl = value.toString().toFloat()
+                val curEl = value.toString().replace(',', '.').toFloat()
                 val curAz = textViewAz.text.toString().toInt()
                 val disp = fieldDisp.text.toString().toFloatOrNull() ?: 0F
                 setDispersion(disp, curAz, curEl)
@@ -128,10 +128,11 @@ class TargetActivity : AppCompatActivity() {
             override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val disp = value.toString().toFloatOrNull() ?: 0F
                 val curAz = textViewAz.text.toString().toInt()
-                val curEl = textViewEl.text.toString().toFloat()
+                val curEl = textViewEl.text.toString().replace(',', '.').toFloat()
                 setDispersion(disp, curAz, curEl)
             }
         })
+        fieldDisp.setText(stdDispersion.toString())
     }
     private fun clearFields() {
         enterFwdBack.text?.clear()

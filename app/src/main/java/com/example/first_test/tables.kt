@@ -393,13 +393,13 @@ fun selectMortar(name: String) {
         "2b14" -> arrayOf(
             Charge(100, 550, mapOf(
                 100 to Entry(1508, 7),
-                150 to Entry(1454, 11),
-                200 to Entry(1398, 25),
-                250 to Entry(1345, 20),
-                300 to Entry(1285, 26),
-                350 to Entry(1200, 33),
-                400 to Entry(1135, 43),
-                450 to Entry(1045, 59),
+                150 to Entry(1461, 11),
+                200 to Entry(1413, 15),
+                250 to Entry(1362, 20),
+                300 to Entry(1310, 26),
+                350 to Entry(1253, 33),
+                400 to Entry(1191, 43),
+                450 to Entry(1119, 59),
                 500 to Entry(1030, 85),
                 550 to Entry(871, 170)
             )),

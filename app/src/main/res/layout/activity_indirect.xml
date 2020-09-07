@@ -113,11 +113,14 @@
         <Button
                 android:text="@string/clear"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/buttonClear"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonClear"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/calculateIndirect"
-                app:layout_constraintBottom_toBottomOf="@+id/calculateIndirect" android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/holo_red_light" android:onClick="onClickClear"/>
+                app:layout_constraintBottom_toBottomOf="@+id/calculateIndirect"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:onClick="onClickClear"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

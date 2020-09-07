@@ -85,6 +85,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun onClickClear(view: View) {
+        mortarX.text?.clear()
+        mortarY.text?.clear()
+        mortarAlt.text?.clear()
+    }
+
     fun onMortarSelected(view: View) {
         if (view is RadioButton) {
             if (view.isChecked)
