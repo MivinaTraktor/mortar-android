@@ -9,14 +9,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var xLabel: EditText
-    private lateinit var yLabel: EditText
+    private lateinit var minMax: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        xLabel = findViewById(R.id.mortarX)
-        yLabel = findViewById(R.id.mortarY)
+        minMax = findViewById(R.id.minMaxDist)
         val spinner: Spinner = findViewById(R.id.digitsSpinner)
         ArrayAdapter.createFromResource(
             this,
@@ -48,8 +46,8 @@ class MainActivity : AppCompatActivity() {
                         zeros = "00000"
                     }
                 }
-                xLabel.hint = zeros
-                yLabel.hint = zeros
+                mortarX.hint = zeros
+                mortarY.hint = zeros
             }
 
         }
@@ -93,24 +91,23 @@ class MainActivity : AppCompatActivity() {
 
     fun onMortarSelected(view: View) {
         if (view is RadioButton) {
-            if (view.isChecked)
-            when (view.getId()) {
-                R.id.dvab11Button ->
-                    if (view.isChecked) {
-                        selectMortar("2b11")
-                    }
-                R.id.podnosButton ->
-                    if (view.isChecked) {
-                        selectMortar("2b14")
-                    }
-                R.id.d30Button ->
-                    if (view.isChecked) {
-                        selectMortar("d30")
-                    }
-                R.id.m252Button ->
-                    if (view.isChecked) {
-                        selectMortar("m252")
-                    }
+            if (view.isChecked) {
+                when (view.getId()) {
+                    R.id.dvab11Button ->
+                        if (view.isChecked)
+                            selectMortar("2b11")
+                    R.id.podnosButton ->
+                        if (view.isChecked)
+                            selectMortar("2b14")
+                    R.id.d30Button ->
+                        if (view.isChecked)
+                            selectMortar("d30")
+                    R.id.m252Button ->
+                        if (view.isChecked)
+                            selectMortar("m252")
+                }
+                minMax.visibility = View.VISIBLE
+                minMax.text = "${mortarArray!![0].min}m   -   ${mortarArray!![mortarArray!!.size - 1].max}m"
             }
         }
     }
