@@ -69,31 +69,6 @@ class IndirectActivity : AppCompatActivity() {
         altLabel.text?.clear()
     }
 
-    private fun find(range: Float): List<Values> {
-        val resultArray: MutableList<Values> = mutableListOf()
-        val lowRounded = (range - (range % RNG_INCR)).toInt()
-        val highRounded = lowRounded + RNG_INCR.toInt()
-        mortarArray!!.forEachIndexed { charge, values ->
-            if (range.toInt() in values.min..values.max) {
-                if (highRounded in values.min..values.max) {
-                    resultArray.add(
-                        Values(
-                            charge, values.valArray[lowRounded]!!.elevation, values.valArray[highRounded]!!.elevation,
-                            values.valArray[lowRounded]!!.altCorrection, values.valArray[highRounded]!!.altCorrection
-                        )
-                    )
-                } else {
-                    resultArray.add(
-                        Values(
-                            charge, values.valArray[lowRounded]!!.elevation, values.valArray[lowRounded]!!.elevation,
-                            values.valArray[lowRounded]!!.altCorrection, values.valArray[lowRounded]!!.altCorrection
-                        ))
-                }
-            }
-        }
-        return resultArray
-    }
-
     private fun target (mCoordinates: Array<Int>, tCoordinates: IntArray) {
         val x = mCoordinates[0]
         val y = mCoordinates[1]
@@ -118,17 +93,6 @@ class IndirectActivity : AppCompatActivity() {
             azimuth = 90 - angle
         azimuth_mil = azimuth * MIL
         azimuth_correct = (atan(1 / range) * 180 / PI * MIL).toFloat()
-    }
-
-    private fun calc(sol: Values, alt_dif: Float, range: Float): FloatArray {
-        val (charge, elMinus, elPlus, altMinus, altPlus) = sol
-        val difference = range % RNG_INCR
-        val altCor100m = altMinus.toFloat() + ((altPlus - altMinus).toFloat() / RNG_INCR * difference)
-        val altCor = altCor100m / ALT_INCR * alt_dif
-        val plusCorrect = (elMinus - elPlus).toFloat() / RNG_INCR
-        val elev = elMinus.toFloat() - (plusCorrect * difference) -
-                altCor
-        return floatArrayOf(charge.toFloat(), plusCorrect, range, altDif, elev)
     }
 }
 
