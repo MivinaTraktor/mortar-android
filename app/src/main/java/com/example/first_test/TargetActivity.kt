@@ -2,8 +2,10 @@ package com.example.first_test
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -26,8 +28,11 @@ class TargetActivity : AppCompatActivity() {
     private var elCor = 0F
     private var solNumber = 0
     private var currentNumber = 0
+    private var time = 0F
     private lateinit var currentSolution: Display
     private val solutionList: MutableList<Display> = mutableListOf()
+    private var runningTimer = false
+    private lateinit var timer : CountDownTimer
 
     fun onClickReset(view: View) {
         clearFields()
@@ -79,6 +84,18 @@ class TargetActivity : AppCompatActivity() {
         }
     }
 
+    fun onClickShot(view: View) {
+        if (runningTimer)
+            timer.cancel()
+        runningTimer = runningTimer.not()
+        timer.start()
+    }
+
+    fun onClickResetTimer(view: View) {
+        timer.cancel()
+        textViewTimer.text = "%.1f".format(time)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_target)
@@ -87,7 +104,7 @@ class TargetActivity : AppCompatActivity() {
         solNumber = intent.getIntExtra("Number of solutions", 0)
         for (i in 0 until solNumber) {
             val solution = intent.getFloatArrayExtra("sol$i")!!
-            solutionList.add(Display(solution[0], solution[1], solution[2], solution[3], solution[4]))
+            solutionList.add(Display(solution[0], solution[1], solution[2], solution[3], solution[4], solution[5]))
         }
         currentSolution = solutionList[0]
         updateValues()
@@ -96,7 +113,16 @@ class TargetActivity : AppCompatActivity() {
         altDifLabel.text = currentSolution.altDif.toInt().toString()
         rngLabel.text = currentSolution.range.toInt().toString()
         displaySolution()
-
+        timer = object: CountDownTimer(time.toLong() * 1000L, 100) {
+            override fun onTick(millisUntilFinished: Long) {
+                textViewTimer.text = "%.1f".format(millisUntilFinished.toInt().toFloat() / 1000F)
+            }
+            override fun onFinish() {
+                runningTimer = false
+                Thread.sleep(2000)
+                textViewTimer.text = "%.1f".format(time)
+            }
+        }
         textViewAz.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(p0: Editable?) {}
@@ -144,10 +170,12 @@ class TargetActivity : AppCompatActivity() {
         textViewCh.text = currentSolution.charge.toInt().toString()
         textViewAz.text = azimuth.toString()
         textViewEl.text = "%.1f".format(elevation)
+        textViewTimer.text = "%.1f".format(time)
     }
     private fun updateValues() {
         elevation = currentSolution.elevation
         elCor = currentSolution.plusCorrect
+        time = currentSolution.time
     }
 
     private fun setDispersion(disp: Float, curAz: Int, curEl: Float) {
@@ -163,6 +191,8 @@ class TargetActivity : AppCompatActivity() {
             dispersionLeft.text = (curAz - dispAz).toString()
         dispersionFB.text = "%.1f".format(curEl)
         val dispEl = elCor * disp
+        textViewAzCor.text = dispAz.toString()
+        textViewElCor.text = "%.1f".format(dispEl)
         dispersionForward.text = "%.1f".format((curEl - dispEl))
         dispersionBack.text = "%.1f".format((curEl + dispEl))
     }

@@ -2,9 +2,9 @@ package com.example.first_test
 
 data class Values (val charge: Int, val entLow: ChargeEntry, val entHi: ChargeEntry, val ent3: ChargeEntry, val ent4: ChargeEntry)
 data class ChargeEntry(val range: Int, val entry: Entry)
-data class Entry (val elevation: Int, val altCorrection: Int)
+data class Entry (val elevation: Int, val altCorrection: Int, val timeAlt: Float, val time: Float)
 data class Charge (val min: Int, val max: Int, val entry: Map<Int, Entry>)
-data class Display (val charge: Float, val plusCorrect: Float, val range: Float, val altDif: Float, val elevation: Float)
+data class Display (val charge: Float, val plusCorrect: Float, val range: Float, val altDif: Float, val elevation: Float, val time: Float)
 
 var mCoordinates = Array(3) { 0 }
 var rangeMultiplier = 100
