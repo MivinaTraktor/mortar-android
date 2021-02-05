@@ -176,6 +176,16 @@ class TargetActivity : AppCompatActivity() {
         elevation = currentSolution.elevation
         elCor = currentSolution.plusCorrect
         time = currentSolution.time
+        timer = object: CountDownTimer(time.toLong() * 1000L, 100) {
+            override fun onTick(millisUntilFinished: Long) {
+                textViewTimer.text = "%.1f".format(millisUntilFinished.toInt().toFloat() / 1000F)
+            }
+            override fun onFinish() {
+                runningTimer = false
+                Thread.sleep(2000)
+                textViewTimer.text = "%.1f".format(time)
+            }
+        }
     }
 
     private fun setDispersion(disp: Float, curAz: Int, curEl: Float) {

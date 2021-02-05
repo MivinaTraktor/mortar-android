@@ -6,7 +6,8 @@ data class Entry (val elevation: Int, val altCorrection: Int, val timeAlt: Float
 data class Charge (val min: Int, val max: Int, val entry: Map<Int, Entry>)
 data class Display (val charge: Float, val plusCorrect: Float, val range: Float, val altDif: Float, val elevation: Float, val time: Float)
 
-var mCoordinates = Array(3) { 0 }
+var mCoordinates: Array<Int?> = Array(3) { null }
+var tCoordinates: Array<Int?> = Array(3) { null }
 var rangeMultiplier = 100
 var mortarArray: Array<Charge>? = null
 val MIL = 17.777778F

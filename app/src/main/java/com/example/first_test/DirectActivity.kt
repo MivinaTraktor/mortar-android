@@ -23,20 +23,20 @@ class DirectActivity : AppCompatActivity() {
         range = targetRange.text.toString().toFloat()
         altDif = altDifDirect.text.toString().toFloatOrNull() ?: 0F
         val azimuth_correct = (atan(1 / range) * 180 / PI * MIL).toFloat()
-        if (range.toInt() !in mortarArray!!.first().min..mortarArray!!.last().max)
+        if (range.toInt() !in mortarArray!!.first().min..mortarArray!!.last().max) {
             Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
-        else {
-            val solutions = find(range)
-            val intent = Intent(this, TargetActivity::class.java)
-            solutions.forEachIndexed { index, values ->
-                val solution = calc(values, altDif, range)
-                intent.putExtra("sol$index", solution)
-            }
-            intent.putExtra("azimuth", 0F)
-            intent.putExtra("azimuthCor", azimuth_correct)
-            intent.putExtra("Number of solutions", solutions.size)
-            startActivity(intent)
+            return
         }
+        val solutions = find(range)
+        val intent = Intent(this, TargetActivity::class.java)
+        solutions.forEachIndexed { index, values ->
+            val solution = calc(values, altDif, range)
+            intent.putExtra("sol$index", solution)
+        }
+        intent.putExtra("azimuth", 0F)
+        intent.putExtra("azimuthCor", azimuth_correct)
+        intent.putExtra("Number of solutions", solutions.size)
+        startActivity(intent)
     }
 
     fun onClickMortar(view: View) {

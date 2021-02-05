@@ -51,33 +51,42 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+        listOf(100, 10, 1).forEachIndexed { i, item ->
+            if (rangeMultiplier == item) spinner.setSelection(i)
+        }
+        listOf(mortarX, mortarY, mortarAlt).forEachIndexed { i, editText ->
+            if (mCoordinates[i] != null)
+                editText.setText(mCoordinates[i].toString())
+            else
+                editText.setText("")
+        }
     }
 
     fun onClickIndirect(view: View) {
-        if (mortarX.text.toString().isEmpty() || mortarY.text.toString().isEmpty() || mortarAlt.text.toString().isEmpty()) {
-            Toast.makeText(applicationContext, "Fill in all fields", Toast.LENGTH_SHORT).show()
-            return
+        when { // ошибки
+            mortarArray == null -> {
+                Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
+                return
+            }
+            mortarX.text.toString().length > zeros.length || mortarY.text.toString().length > zeros.length -> {
+                Toast.makeText(applicationContext,"Incorrect coordinate format!", Toast.LENGTH_SHORT).show()
+                return
+            }
         }
-        if (mortarArray == null) { //если не выбран миномет
-            Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
-            return
-        }
-        val fieldsList = listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString())
-        fieldsList.forEachIndexed { i, field->
-            if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = 0
+        listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString()).forEachIndexed { i, field->
+            if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = null
         }
         val intent = Intent(this, IndirectActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickDirect(view: View) {
-        if (mortarArray == null) { //если не выбран миномет
+        if (mortarArray == null) {
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
-        val fieldsList = listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString())
-        fieldsList.forEachIndexed { i, field->
-            if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = 0
+        listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString()).forEachIndexed { i, field->
+            if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = null
         }
         val intent = Intent(this, DirectActivity::class.java)
         startActivity(intent)
@@ -87,24 +96,29 @@ class MainActivity : AppCompatActivity() {
         mortarX.text?.clear()
         mortarY.text?.clear()
         mortarAlt.text?.clear()
+        mCoordinates = Array(3) { null }
     }
 
     fun onMortarSelected(view: View) {
         if (view is RadioButton) {
             if (view.isChecked) {
                 when (view.getId()) {
-                    R.id.dvab11Button ->
-                        if (view.isChecked)
+                    R.id.but2b11 ->
+                        if (view.isChecked) {
                             selectMortar("2b11")
-                    R.id.podnosButton ->
-                        if (view.isChecked)
+                        }
+                    R.id.but2b14 ->
+                        if (view.isChecked) {
                             selectMortar("2b14")
-                    R.id.d30Button ->
-                        if (view.isChecked)
+                        }
+                    R.id.butd30 ->
+                        if (view.isChecked) {
                             selectMortar("d30")
-                    R.id.m252Button ->
-                        if (view.isChecked)
+                        }
+                    R.id.butm252 ->
+                        if (view.isChecked) {
                             selectMortar("m252")
+                        }
                 }
                 minMax.visibility = View.VISIBLE
                 minMax.text = "${mortarArray!![0].min}m   -   ${mortarArray!![mortarArray!!.size - 1].max}m"
