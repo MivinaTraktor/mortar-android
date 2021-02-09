@@ -16,7 +16,7 @@ fun selectMortar(name: String) {
         }
         "m252" -> {
             mortarCharges = arrayOf(0.35, 0.7, 1.0)
-            muzzleVelocity = 200.0
+            muzzleVelocity = 202.5
         }
         else -> {
             mortarCharges = null
