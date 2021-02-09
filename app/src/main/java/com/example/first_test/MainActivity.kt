@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickIndirect(view: View) {
         when { // ошибки
-            mortarArray == null -> {
+            mortarCharges == null -> {
                 Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
                 return
             }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickDirect(view: View) {
-        if (mortarArray == null) {
+        if (mortarCharges == null) {
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                         }
                 }
                 minMax.visibility = View.VISIBLE
-                minMax.text = "${mortarArray!![0].min}m   -   ${mortarArray!![mortarArray!!.size - 1].max}m"
+                minMax.text = "   -   %.1fm".format(findRange(mortarCharges!!.last() * muzzleVelocity!!, 45.0))
             }
         }
     }

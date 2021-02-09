@@ -9,6 +9,7 @@
     <string name="digitsNotSelected">Select format</string>
     <string name="zeros">0000</string>
     <string name="zero">0</string>
+    <string name="zeroDegrees">0°</string>
     <string name="m252">m252</string>
     <string name="m119d30">m119/d30</string>
     <string name="podnos">2b14</string>

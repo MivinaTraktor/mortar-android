@@ -1,17 +1,15 @@
 package com.example.first_test
 
-data class Values (val charge: Int, val entLow: ChargeEntry, val entHi: ChargeEntry, val ent3: ChargeEntry, val ent4: ChargeEntry)
-data class ChargeEntry(val range: Int, val entry: Entry)
-data class Entry (val elevation: Int, val altCorrection: Int, val timeAlt: Float, val time: Float)
-data class Charge (val min: Int, val max: Int, val entry: Map<Int, Entry>)
-data class Display (val charge: Float, val plusCorrect: Float, val range: Float, val altDif: Float, val elevation: Float, val time: Float)
+data class ChargeSolution(val charge: Int, val elevation: Double, val elevation360: Double)
 
 var mCoordinates: Array<Int?> = Array(3) { null }
 var tCoordinates: Array<Int?> = Array(3) { null }
 var rangeMultiplier = 100
-var mortarArray: Array<Charge>? = null
-val MIL = 17.777778F
-val RNG_INCR = 50F
-val ALT_INCR = 100F
+var mortarCharges: Array<Double>? = null
+var muzzleVelocity: Double? = null
+const val MIL = 17.777778
 var zeros = "Select format"
 val stdDispersion = 25
+const val G = 9.81
+const val MAX_ANGLE = 85.0
+const val MIN_ANGLE = 45.0
