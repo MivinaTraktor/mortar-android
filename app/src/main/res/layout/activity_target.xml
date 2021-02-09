@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" android:id="@+id/linearLayout5">
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/back" android:gravity="center">
             <Button
@@ -65,9 +65,8 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="44dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:background="@drawable/back"
                 android:gravity="center" android:paddingVertical="10dp">
             <TextView
@@ -86,9 +85,8 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/back"
                 android:gravity="center" android:paddingVertical="10dp">
             <TextView
@@ -113,13 +111,12 @@
                     android:text="@string/zeroDegrees"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/textViewAz360"
-                    android:textColor="@android:color/holo_red_dark"/>
+                    android:textColor="@android:color/holo_red_dark" android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_width="142dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/back"
                 android:gravity="center" android:paddingVertical="10dp">
             <TextView
@@ -144,7 +141,23 @@
                     android:text="@string/zeroDegrees"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/textViewEl360"
-                    android:textColor="@android:color/holo_green_dark"/>
+                    android:textColor="@android:color/holo_green_dark" android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="44dp"
+                android:background="@drawable/back"
+                android:layout_height="match_parent" android:gravity="center">
+            <Button
+                    android:text="HI"
+                    android:layout_width="44dp"
+                    android:layout_height="wrap_content" android:id="@+id/buttonHi"
+                    android:onClick="onClickHi" android:textAlignment="center"/>
+            <Button
+                    android:text="LO"
+                    android:layout_width="44dp"
+                    android:layout_height="wrap_content" android:id="@+id/buttonLo" android:onClick="onClickLo"
+                    android:textAlignment="center"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

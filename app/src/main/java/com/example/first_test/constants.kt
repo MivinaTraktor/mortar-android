@@ -1,6 +1,7 @@
 package com.example.first_test
 
-data class ChargeSolution(val charge: Int, val elevation: Double, val elevation360: Double)
+data class Solution(val elevation: Double, val elevation360: Double)
+data class ChargePair(val charge: Int, val hi: Solution, val lo: Solution)
 
 var mCoordinates: Array<Int?> = Array(3) { null }
 var tCoordinates: Array<Int?> = Array(3) { null }

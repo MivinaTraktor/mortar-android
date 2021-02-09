@@ -45,14 +45,16 @@ fun calcCoordinates(startArray: Array<Int>, range: Double, azimuth: Double, altD
     tCoordinates[2] = (altDif + startArray[2]).roundToInt()
 }
 
-fun chargesList(tValues: Array<Double>): List<ChargeSolution> {
-    var result: MutableList<ChargeSolution> = mutableListOf()
+fun chargesList(tValues: Array<Double>): List<ChargePair> {
+    var result: MutableList<ChargePair> = mutableListOf()
     mortarCharges!!.forEachIndexed { i, multiplier ->
         val v = muzzleVelocity!! * multiplier
-        val sol360 = atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
-        val solMil = sol360 * MIL
-        if (!sol360.isNaN())
-            result.add(ChargeSolution(i, solMil, sol360))
+        val sol360Hi = atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
+        val solMilHi = sol360Hi * MIL
+        val sol360Lo = atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
+        val solMilLo = sol360Lo * MIL
+        if (!(sol360Hi.isNaN() && sol360Lo.isNaN()))
+            result.add(ChargePair(i, Solution(solMilHi, sol360Hi), Solution(solMilLo, sol360Lo)))
     }
     return result.toList()
 }
