@@ -20,6 +20,7 @@ class TargetActivity : AppCompatActivity() {
     private var azimuth360 = 0.0
     private var currentNumber = 0
     private var tValues = target(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
+    private var defValues = arrayOf(deflectionArray[0] ?: 0, deflectionArray[1] ?: 0)
     private var solutionList = chargesList(tValues)
     private var currentSolution = solutionList.first()
     private var hiSelected = true
@@ -65,6 +66,8 @@ class TargetActivity : AppCompatActivity() {
         textViewEl.text = "%.1f".format(elevation)
         textViewAz360.text = "%.1f°".format(azimuth360)
         textViewEl360.text = "%.2f°".format(elevation360)
+        AOFLabel.text = deflectionArray[0].toString()
+        defLabel.text = calcDeflection(defValues[0], defValues[1], azimuth).roundToInt().toString()
     }
 
     fun onClickHi(view: View) {

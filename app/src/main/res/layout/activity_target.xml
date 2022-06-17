@@ -1,165 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".TargetActivity">
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".TargetActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        tools:context=".TargetActivity"
->
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/linearLayout4" android:background="@drawable/back">
-        <TextView
-                android:text="Range:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/textView" android:layout_weight="0.5"
-                android:textAlignment="center"/>
-        <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/rngLabel" android:layout_weight="1"/>
-        <TextView
-                android:text="Altitude difference:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/textView8" android:layout_weight="0.5"
-                android:textAlignment="center"/>
-        <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/altDifLabel" android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
+        tools:context=".TargetActivity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" android:id="@+id/linearLayout5">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Range:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/rngLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Altitude difference:"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/altDifLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+        </LinearLayout>
+
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="40dp"
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:divider="@color/colorPrimaryDark"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/back" android:gravity="center">
-            <Button
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonPlus"
+                    android:layout_width="44dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickPlus"
                     android:text="+"
-                    android:layout_width="40dp"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/buttonMinus"
+                    android:layout_width="44dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonPlus" android:textSize="18sp"
-                    android:onClick="onClickPlus"/>
-            <Button
+                    android:onClick="onClickMinus"
                     android:text="-"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/buttonMinus" android:textSize="18sp"
-                    android:onClick="onClickMinus"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="44dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/back"
-                android:gravity="center" android:paddingVertical="10dp">
-            <TextView
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
                     android:text="Ch."
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/textViewCh"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/textView5"
-                    android:textSize="24sp" android:textAlignment="center"
-                    android:layout_marginBottom="0dp"/>
-            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
                     android:text="@string/zero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/textViewCh"
-                    android:layout_marginTop="0dp" android:textSize="36sp"
-                    android:textColor="@color/colorPrimaryDark" android:textAlignment="center"
-                    android:layout_marginStart="0dp"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="141dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="36sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/back"
-                android:gravity="center" android:paddingVertical="10dp">
-            <TextView
-                    android:text="@string/azimuth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <TextView
                     android:id="@+id/textView3"
-                    android:textSize="24sp"
-                    android:textAlignment="center"
-                    android:layout_marginBottom="0dp"/>
-            <TextView
-                    android:text="@string/zeros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:text="@string/azimuth"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
                     android:id="@+id/textViewAz"
-                    android:textSize="36sp"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textAlignment="center"
-                    android:layout_marginTop="0dp"
-            />
-            <TextView
-                    android:text="@string/zeroDegrees"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/textViewAz360"
-                    android:textColor="@android:color/holo_red_dark" android:textAlignment="center"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="142dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/back"
-                android:gravity="center" android:paddingVertical="10dp">
-            <TextView
-                    android:text="@string/elevation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView4"
-                    android:textSize="24sp"
-                    android:textAlignment="center"
-                    android:layout_marginBottom="0dp"/>
-            <TextView
+                    android:layout_marginTop="0dp"
                     android:text="@string/zeros"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/textViewAz360"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textViewEl"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textSize="36sp"
-                    android:textAlignment="center"
-                    android:layout_marginTop="0dp"
-            />
-            <TextView
                     android:text="@string/zeroDegrees"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/textViewEl360"
-                    android:textColor="@android:color/holo_green_dark" android:textAlignment="center"/>
-        </LinearLayout>
-        <LinearLayout
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:layout_width="44dp"
-                android:background="@drawable/back"
-                android:layout_height="match_parent" android:gravity="center">
-            <Button
+                android:paddingVertical="10dp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:text="@string/elevation"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/textViewEl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/zeros"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/textViewEl360"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zeroDegrees"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonHi"
+                    android:layout_width="44dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickHi"
                     android:text="HI"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/buttonLo"
                     android:layout_width="44dp"
-                    android:layout_height="wrap_content" android:id="@+id/buttonHi"
-                    android:onClick="onClickHi" android:textAlignment="center"/>
-            <Button
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickLo"
                     android:text="LO"
-                    android:layout_width="44dp"
-                    android:layout_height="wrap_content" android:id="@+id/buttonLo" android:onClick="onClickLo"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Deflection:" />
+
+            <TextView
+                android:id="@+id/defLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Az. of Fire:" />
+
+            <TextView
+                android:id="@+id/AOFLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

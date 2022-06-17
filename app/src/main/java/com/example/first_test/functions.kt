@@ -25,8 +25,8 @@ fun target(m: Array<Int>, t: Array<Int>): Array<Double> {
         tgtX < x -> 270.0 - angle
         else -> 0.0
     }
-    val azimuth_mil = azimuth * MIL
-    return arrayOf(range, altDif, azimuth_mil, azimuth)
+    val azimuthArt = azimuth / 360.0 * artDegree
+    return arrayOf(range, altDif, azimuthArt, azimuth)
 }
 
 fun findRange(v: Double, angle: Double): Double {
@@ -50,11 +50,18 @@ fun chargesList(tValues: Array<Double>): List<ChargePair> {
     mortarCharges!!.forEachIndexed { i, multiplier ->
         val v = muzzleVelocity!! * multiplier
         val sol360Hi = atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
-        val solMilHi = sol360Hi * MIL
+        val solMilHi = sol360Hi / 360.0 * artDegree
         val sol360Lo = atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
-        val solMilLo = sol360Lo * MIL
+        val solMilLo = sol360Lo / 360.0 * artDegree
         if (!(sol360Hi.isNaN() && sol360Lo.isNaN()))
-            result.add(ChargePair(i, Solution(solMilHi, sol360Hi), Solution(solMilLo, sol360Lo)))
+            result.add(ChargePair(i + 1, Solution(solMilHi, sol360Hi), Solution(solMilLo, sol360Lo)))
     }
     return result.toList()
+}
+
+fun calcDeflection(aof: Int, def: Int, az: Double): Double {
+    var finalDef = def.toDouble() + (az - aof.toDouble())
+    if (finalDef < 0.0) finalDef += artDegree
+    if (finalDef > artDegree) finalDef -= artDegree
+    return finalDef
 }

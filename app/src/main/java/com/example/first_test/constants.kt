@@ -5,10 +5,11 @@ data class ChargePair(val charge: Int, val hi: Solution, val lo: Solution)
 
 var mCoordinates: Array<Int?> = Array(3) { null }
 var tCoordinates: Array<Int?> = Array(3) { null }
+var deflectionArray: Array<Int?> = Array(3) { null }
 var rangeMultiplier = 100
 var mortarCharges: Array<Double>? = null
 var muzzleVelocity: Double? = null
-const val MIL = 17.777778
+var artDegree = 6400.0
 var zeros = "Select format"
 val stdDispersion = 25
 const val G = 9.81

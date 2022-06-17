@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".IndirectActivity">
+        tools:context=".MainActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,12 +59,13 @@
                          android:layout_weight="1"
                          android:text="@string/podnos"
                          android:onClick="onMortarSelected"/>
-            <RadioButton android:id="@+id/butd30"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_weight="1"
-                         android:text="@string/m119d30"
-                         android:onClick="onMortarSelected"/>
+            <RadioButton
+                android:id="@+id/butd30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onMortarSelected"
+                android:text="@string/d30" />
             <RadioButton android:id="@+id/butm252"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
@@ -149,6 +150,61 @@
                 android:textAlignment="center"
                 android:textSize="36sp"
                 android:layout_marginHorizontal="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Az. of Fire"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/azOfFire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/zero"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deflection"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/initDef"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/zero"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <Button
             android:text="@string/clear"

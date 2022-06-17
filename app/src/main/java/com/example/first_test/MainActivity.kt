@@ -60,6 +60,12 @@ class MainActivity : AppCompatActivity() {
             else
                 editText.setText("")
         }
+        listOf(azOfFire, initDef).forEachIndexed { i, editText ->
+            if (deflectionArray[i] != null)
+                editText.setText(deflectionArray[i].toString())
+            else
+                editText.setText("")
+        }
     }
 
     fun onClickIndirect(view: View) {
@@ -75,6 +81,9 @@ class MainActivity : AppCompatActivity() {
         }
         listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString()).forEachIndexed { i, field->
             if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = null
+        }
+        listOf(azOfFire.text.toString(), initDef.text.toString()).forEachIndexed { i, field ->
+            if (field.isNotEmpty()) deflectionArray[i] = field.toInt() else deflectionArray[i] = null
         }
         val intent = Intent(this, IndirectActivity::class.java)
         startActivity(intent)
