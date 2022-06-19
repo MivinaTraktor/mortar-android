@@ -126,7 +126,7 @@
                 android:paddingVertical="10dp">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textLabelAz"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
@@ -144,13 +144,6 @@
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="36sp" />
 
-                <TextView
-                    android:id="@+id/textViewAz360"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zeroDegrees"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark" />
             </LinearLayout>
 
             <LinearLayout
@@ -180,13 +173,6 @@
                     android:textColor="@android:color/holo_green_dark"
                     android:textSize="36sp" />
 
-                <TextView
-                    android:id="@+id/textViewEl360"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/zeroDegrees"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_green_dark" />
             </LinearLayout>
 
             <LinearLayout
@@ -213,41 +199,202 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Correction"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout5" />
+
+        <Button
+            android:id="@+id/btnCorOk"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <EditText
+            android:id="@+id/leftRight"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Left/Right"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCorOk"
+            app:layout_constraintEnd_toStartOf="@+id/btnCorOk"
+            app:layout_constraintTop_toTopOf="@+id/btnCorOk" />
+
+        <EditText
+            android:id="@+id/fwdBack"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Fwd/Back"
+            android:inputType="numberSigned"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCorOk"
+            app:layout_constraintStart_toEndOf="@+id/btnCorOk"
+            app:layout_constraintTop_toTopOf="@+id/btnCorOk" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+            app:layout_constraintTop_toBottomOf="@+id/btnCorOk">
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Deflection:" />
-
-            <TextView
-                android:id="@+id/defLabel"
+            <Button
+                android:id="@+id/btnAnchor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0" />
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:text="Anchor" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Az. of Fire:" />
-
-            <TextView
-                android:id="@+id/AOFLabel"
+            <Button
+                android:id="@+id/btnReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0" />
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="@string/reset" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Dispersion"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+        <EditText
+            android:id="@+id/dispersion"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="0"
+            android:inputType="number"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dispersion"
+            app:layout_constraintEnd_toStartOf="@+id/dispersion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dispersion" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dispersion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dispersion"
+            app:layout_constraintTop_toTopOf="@+id/dispersion" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dispersion">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@android:color/holo_green_dark"
+                android:textSize="18sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

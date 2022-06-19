@@ -3,12 +3,8 @@ package com.example.first_test
 import kotlin.math.*
 
 fun target(m: Array<Int>, t: Array<Int>): Array<Double> {
-    val x = m[0]
-    val y = m[1]
-    val alt = m[2]
-    val tgtX = t[0]
-    val tgtY = t[1]
-    val tgtAlt = t[2]
+    val (x, y, alt) = m
+    val (tgtX, tgtY, tgtAlt) = t
     val altDif = (tgtAlt - alt).toDouble()
     val range = hypot(((tgtX - x).toDouble()), ((tgtY - y).toDouble())) * rangeMultiplier.toDouble()
     val angle: Double
@@ -19,14 +15,13 @@ fun target(m: Array<Int>, t: Array<Int>): Array<Double> {
             angle = 180.0
     }
     else angle = atan(((tgtY - y).toDouble() / (tgtX - x).toDouble())) * 180.0 / PI
-    val azimuth: Double
-    azimuth = when {
-        tgtX > x -> 90.0 - angle
-        tgtX < x -> 270.0 - angle
+    val azimuth = when {
+        tgtX > x -> (90.0 - angle) / 360.0 * artDegree
+        tgtX < x -> (270.0 - angle) / 360.0 * artDegree
         else -> 0.0
     }
-    val azimuthArt = azimuth / 360.0 * artDegree
-    return arrayOf(range, altDif, azimuthArt, azimuth)
+    val azDef = if (useDeflection) calcDeflection(deflectionArray[0]!!, deflectionArray[1]!!, azimuth) else azimuth
+    return arrayOf(range, altDif, azDef)
 }
 
 fun findRange(v: Double, angle: Double): Double {
@@ -54,7 +49,7 @@ fun chargesList(tValues: Array<Double>): List<ChargePair> {
         val sol360Lo = atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * tValues[0].pow(2)) + (2 * tValues[1] * v.pow(2))))) / (G * tValues[0])).toDegrees()
         val solMilLo = sol360Lo / 360.0 * artDegree
         if (!(sol360Hi.isNaN() && sol360Lo.isNaN()))
-            result.add(ChargePair(i + 1, Solution(solMilHi, sol360Hi), Solution(solMilLo, sol360Lo)))
+            result.add(ChargePair(i + 1, solMilHi, solMilLo))
     }
     return result.toList()
 }

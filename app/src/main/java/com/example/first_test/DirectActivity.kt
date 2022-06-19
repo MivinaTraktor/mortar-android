@@ -5,21 +5,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_direct.*
+import com.example.first_test.databinding.ActivityDirectBinding
 
 class DirectActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDirectBinding
     private var range = 0.0
     private var altDif = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_direct)
+        binding = ActivityDirectBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     fun onClickCalculate(view: View) {
-        range = targetRange.text.toString().toDouble()
-        altDif = altDifDirect.text.toString().toDoubleOrNull() ?: 0.0
+        range = binding.targetRange.text.toString().toDouble()
+        altDif = binding.altDifDirect.text.toString().toDoubleOrNull() ?: 0.0
         calcCoordinates(mCoordinates.requireNoNulls(), range, 0.0, altDif)
         val targetCalculated = target(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
         if (chargesList(targetCalculated).isEmpty()) {

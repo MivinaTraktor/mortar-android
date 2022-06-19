@@ -5,17 +5,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.widget.SwitchCompat
+import com.example.first_test.databinding.ActivityMainBinding
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var minMax: TextView
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        minMax = findViewById(R.id.minMaxDist)
-        val spinner: Spinner = findViewById(R.id.digitsSpinner)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        minMax = binding.minMaxDist
+        val spinner: Spinner = binding.digitsSpinner
         ArrayAdapter.createFromResource(
             this,
             R.array.digitsArray,
@@ -46,21 +50,34 @@ class MainActivity : AppCompatActivity() {
                         zeros = "00000"
                     }
                 }
-                mortarX.hint = zeros
-                mortarY.hint = zeros
+                binding.mortarX.hint = zeros
+                binding.mortarY.hint = zeros
             }
 
         }
+
+        val checkDeflection: CheckBox = binding.checkDeflection
+        checkDeflection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.deflectionFields.visibility = View.VISIBLE
+                useDeflection = true
+            }
+            else {
+                binding.deflectionFields.visibility = View.GONE
+                useDeflection = false
+            }
+        }
+
         listOf(100, 10, 1).forEachIndexed { i, item ->
             if (rangeMultiplier == item) spinner.setSelection(i)
         }
-        listOf(mortarX, mortarY, mortarAlt).forEachIndexed { i, editText ->
+        listOf(binding.mortarX, binding.mortarY, binding.mortarAlt).forEachIndexed { i, editText ->
             if (mCoordinates[i] != null)
                 editText.setText(mCoordinates[i].toString())
             else
                 editText.setText("")
         }
-        listOf(azOfFire, initDef).forEachIndexed { i, editText ->
+        listOf(binding.azOfFire, binding.initDef).forEachIndexed { i, editText ->
             if (deflectionArray[i] != null)
                 editText.setText(deflectionArray[i].toString())
             else
@@ -74,16 +91,16 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
                 return
             }
-            mortarX.text.toString().length > zeros.length || mortarY.text.toString().length > zeros.length -> {
+            binding.mortarX.text.toString().length > zeros.length || binding.mortarY.text.toString().length > zeros.length -> {
                 Toast.makeText(applicationContext,"Incorrect coordinate format!", Toast.LENGTH_SHORT).show()
                 return
             }
         }
-        listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString()).forEachIndexed { i, field->
-            if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = null
+        listOf(binding.mortarX.text.toString(), binding.mortarY.text.toString(), binding.mortarAlt.text.toString()).forEachIndexed { i, field->
+            mCoordinates[i] = if (field.isNotEmpty()) field.toInt() else null
         }
-        listOf(azOfFire.text.toString(), initDef.text.toString()).forEachIndexed { i, field ->
-            if (field.isNotEmpty()) deflectionArray[i] = field.toInt() else deflectionArray[i] = null
+        listOf(binding.azOfFire.text.toString(), binding.initDef.text.toString()).forEachIndexed { i, field ->
+            deflectionArray[i] = if (field.isNotEmpty()) field.toInt() else null
         }
         val intent = Intent(this, IndirectActivity::class.java)
         startActivity(intent)
@@ -94,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
-        listOf(mortarX.text.toString(), mortarY.text.toString(), mortarAlt.text.toString()).forEachIndexed { i, field->
+        listOf(binding.mortarX.text.toString(), binding.mortarY.text.toString(), binding.mortarAlt.text.toString()).forEachIndexed { i, field->
             if (field.isNotEmpty()) mCoordinates[i] = field.toInt() else mCoordinates[i] = null
         }
         val intent = Intent(this, DirectActivity::class.java)
@@ -102,9 +119,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickClear(view: View) {
-        mortarX.text?.clear()
-        mortarY.text?.clear()
-        mortarAlt.text?.clear()
+        binding.mortarX.text?.clear()
+        binding.mortarY.text?.clear()
+        binding.mortarAlt.text?.clear()
+        binding.azOfFire.text?.clear()
+        binding.initDef.text?.clear()
         mCoordinates = Array(3) { null }
     }
 
@@ -129,8 +148,8 @@ class MainActivity : AppCompatActivity() {
                             selectMortar("m252")
                         }
                 }
-                minMax.visibility = View.VISIBLE
-                minMax.text = "   -   %.1fm".format(findRange(mortarCharges!!.last() * muzzleVelocity!!, 45.0))
+                var d = findRange(mortarCharges!!.last() * muzzleVelocity!!, 45.0).roundToInt()
+                minMax.text = "Max: ${d}m"
             }
         }
     }

@@ -5,16 +5,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_indirect.*
+import com.example.first_test.databinding.ActivityIndirectBinding
 
 class IndirectActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityIndirectBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_indirect)
-        targetX.hint = zeros
-        targetY.hint = zeros
-        listOf(targetX, targetY, targetAltIndirect).forEachIndexed { i, editText ->
+        binding = ActivityIndirectBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.targetX.hint = zeros
+        binding.targetY.hint = zeros
+        listOf(binding.targetX, binding.targetY, binding.targetAltIndirect).forEachIndexed { i, editText ->
             if (tCoordinates[i] != null)
                 editText.setText(tCoordinates[i].toString())
             else
@@ -23,29 +26,23 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickMortar(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString(), targetAltIndirect.text.toString()).forEachIndexed { i, field ->
-            if (field.isNotEmpty())
-                tCoordinates[i] = field.toInt()
-            else
-                tCoordinates[i] = null
+        listOf(binding.targetX.text.toString(), binding.targetY.text.toString(), binding.targetAltIndirect.text.toString()).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) field.toInt() else null
         }
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickDirect(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString(), targetAltIndirect.text.toString()).forEachIndexed { i, field ->
-            if (field.isNotEmpty())
-                tCoordinates[i] = field.toInt()
-            else
-                tCoordinates[i] = null
+        listOf(binding.targetX.text.toString(), binding.targetY.text.toString(), binding.targetAltIndirect.text.toString()).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) field.toInt() else null
         }
         val intent = Intent(this, DirectActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickCalculate(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString(), targetAltIndirect.text.toString()).forEachIndexed { i, field->
+        listOf(binding.targetX.text.toString(), binding.targetY.text.toString(), binding.targetAltIndirect.text.toString()).forEachIndexed { i, field->
             if (field.isNotEmpty())
                 tCoordinates[i] = field.toInt()
             else {
@@ -54,7 +51,7 @@ class IndirectActivity : AppCompatActivity() {
             }
         }
         when {
-            targetX.text.toString().length > zeros.length || targetY.text.toString().length > zeros.length -> {
+            binding.targetX.text.toString().length > zeros.length || binding.targetY.text.toString().length > zeros.length -> {
                 Toast.makeText(applicationContext,"Incorrect coordinate format!", Toast.LENGTH_SHORT).show()
                 return
             }
@@ -73,9 +70,9 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickClear(view: View) {
-        targetX.text?.clear()
-        targetY.text?.clear()
-        targetAltIndirect.text?.clear()
+        binding.targetX.text?.clear()
+        binding.targetY.text?.clear()
+        binding.targetAltIndirect.text?.clear()
         tCoordinates = Array(3) { null }
     }
 }

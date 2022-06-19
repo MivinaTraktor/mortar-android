@@ -10,10 +10,6 @@
     <string name="zeros">0000</string>
     <string name="zero">0</string>
     <string name="zeroDegrees">0°</string>
-    <string name="m252">m252</string>
-    <string name="d30">d30</string>
-    <string name="podnos">2b14</string>
-    <string name="dvab11">2b11</string>
     <string name="calculate">Calculate</string>
     <string name="clear">Clear</string>
     <string name="reset">Reset</string>
@@ -25,4 +21,15 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="title_activity_navigation">navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>
