@@ -77,7 +77,7 @@ class IndirectActivity : AppCompatActivity() {
         binding.targetX.text?.clear()
         binding.targetY.text?.clear()
         binding.targetAltIndirect.text?.clear()
-        tCoordinates = Array(3) { null }
+        tCoordinates = MutableList(3) { null }
     }
 }
 

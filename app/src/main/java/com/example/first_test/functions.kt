@@ -11,7 +11,7 @@ fun Double.toRadian(): Double = this / 180.0 * PI
 
 fun Double.toDegrees(): Double = this * 180.0 / PI
 
-fun calcCoordinates(startArray: Array<Int>, range: Double, azimuth: Double, altDif: Double) {
+fun calcCoordinates(startArray: List<Int>, range: Double, azimuth: Double, altDif: Double) {
     val rad = azimuth.toRadian()
     tCoordinates[0] = (range * sin(rad) / rangeMultiplier + startArray[0]).roundToInt()
     tCoordinates[1] = (range * cos(rad) / rangeMultiplier + startArray[1]).roundToInt()

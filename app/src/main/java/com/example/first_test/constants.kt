@@ -6,7 +6,7 @@ import kotlin.math.hypot
 
 data class ChargePair(val charge: Int, val hi: Double, val lo: Double, val v: Double)
 
-class FiringData(private val mortar: Array<Int>, private val target: Array<Int>) {
+class FiringData(private val mortar: List<Int>, private val target: List<Int>) {
     val range = hypot(((target[0] - mortar[0]).toDouble()), ((target[1] - mortar[1]).toDouble())) * rangeMultiplier.toDouble()
     val altDif = (target[2] - mortar[2]).toDouble()
     val azimuth = angle() / 360.0 * artDegree
@@ -31,11 +31,11 @@ class FiringData(private val mortar: Array<Int>, private val target: Array<Int>)
     }
 }
 
-var mCoordinates: Array<Int?> = Array(3) { null }
-var tCoordinates: Array<Int?> = Array(3) { null }
-var deflectionArray: Array<Int?> = Array(2) { null }
+var mCoordinates: MutableList<Int?> = MutableList(3) { null }
+var tCoordinates: MutableList<Int?> = MutableList(3) { null }
+var deflectionArray: MutableList<Int?> = MutableList(2) { null }
 var rangeMultiplier = 100
-var mortarCharges: Array<Double>? = null
+var mortarCharges: List<Double>? = null
 var specialCharges: Map<Int, String>? = null
 var artDegree = 6400.0
 var zeros = "Select format"

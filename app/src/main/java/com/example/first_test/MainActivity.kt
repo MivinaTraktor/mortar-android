@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         binding.mortarAlt.text?.clear()
         binding.azOfFire.text?.clear()
         binding.initDef.text?.clear()
-        mCoordinates = Array(3) { null }
+        mCoordinates = MutableList(3) { null }
     }
 
     fun onMortarSelected(view: View) {
