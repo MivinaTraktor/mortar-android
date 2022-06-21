@@ -46,7 +46,7 @@ class IndirectActivity : AppCompatActivity() {
             if (field.isNotEmpty())
                 tCoordinates[i] = field.toInt()
             else {
-                Toast.makeText(applicationContext, "Fill in all target coordinates", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Fill in all target coordinates!", Toast.LENGTH_SHORT).show()
                 return
             }
         }
@@ -56,12 +56,16 @@ class IndirectActivity : AppCompatActivity() {
                 return
             }
             mCoordinates.contains(null) -> {
-                Toast.makeText(applicationContext, "Fill in all mortar coordinates", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Fill in all mortar coordinates!", Toast.LENGTH_SHORT).show()
+                return
+            }
+            useDeflection && deflectionArray.contains(null) -> {
+                Toast.makeText(applicationContext, "Fill in deflection values!", Toast.LENGTH_SHORT).show()
                 return
             }
         }
-        val targetCalculated = target(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
-        if (chargesList(targetCalculated).isEmpty()) {
+        val firingData = FiringData(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
+        if (chargesList(firingData.range, firingData.altDif).isEmpty()) {
             Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
             return
         }

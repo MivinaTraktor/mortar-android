@@ -6,6 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
@@ -15,53 +17,107 @@ import kotlin.math.*
 class TargetActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTargetBinding
+    private var firingData = FiringData(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
     private var elevation = 0.0
-    private var azimuth = 0.0
-    private var currentNumber = 0
-    private var tValues = target(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
-    private var solutionList = chargesList(tValues)
-    private var currentSolution = solutionList.first()
+    private var deflection = 0.0
+    private var curNumber = 0
+    private var azimuth = firingData.azimuth
+    private var range = firingData.range
+    private var altDif = firingData.altDif
+    private var azCor = 2 * PI * firingData.range / artDegree
+    private var solutions = chargesList(firingData.range, firingData.altDif)
+    private var curSolution = solutions.first()
     private var hiSelected = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTargetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.altDifLabel.text = tValues[1].toInt().toString()
-        binding.rngLabel.text = tValues[0].roundToInt().toString()
+        binding.rngLabel.text = range.roundToInt().toString()
+        binding.altDifLabel.text = altDif.toInt().toString()
         if (useDeflection) binding.textLabelAz.text = "Deflection"
+        binding.fieldDisp.setText(stdDispersion.toString())
         onClickHi(binding.root)
-        updateValues()
+
+        binding.textViewEl.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
+
+        binding.fieldDisp.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                setDispersion(s.toString().toDoubleOrNull() ?: 0.0)
+            }
+        })
     }
 
     fun onClickPlus(view: View) {
-        if (currentNumber < solutionList.size - 1) {
-            currentNumber++
-            currentSolution = solutionList[currentNumber]
+        if (curNumber < solutions.size - 1) {
+            curNumber++
+            curSolution = solutions[curNumber]
             updateValues()
         }
     }
 
     fun onClickMinus(view: View) {
-        if (currentNumber != 0) {
-            currentNumber--
-            currentSolution = solutionList[currentNumber]
+        if (curNumber != 0) {
+            curNumber--
+            curSolution = solutions[curNumber]
             updateValues()
         }
     }
 
     private fun updateValues() {
         elevation = if (hiSelected)
-            currentSolution.hi
+            curSolution.hi
         else
-            currentSolution.lo
-        azimuth = tValues[2]
+            curSolution.lo
         binding.textViewCh.text = if (specialCharges != null)
-            specialCharges!![currentSolution.charge]
+            specialCharges!![curSolution.charge]
         else
-            currentSolution.charge.toString()
-        binding.textViewAz.text = azimuth.roundToInt().toString()
+            curSolution.charge.toString()
+        if (useDeflection) {
+            deflection = calcDeflection(deflectionArray[0]!!, deflectionArray[1]!!, azimuth)
+            binding.textViewAz.text = deflection.roundToInt().toString()
+        }
+        else
+            binding.textViewAz.text = firingData.azimuth.roundToInt().toString()
         binding.textViewEl.text = elevation.roundToInt().toString()
+        setDispersion(binding.fieldDisp.text.toString().toDoubleOrNull() ?: 0.0)
+    }
+
+    private fun setDispersion(disp: Double) {
+        val az = if (useDeflection) deflection else azimuth
+        binding.dispersionLR.text = az.roundToInt().toString()
+        val dispAz = disp / azCor
+        binding.dispersionAz.text = "%.1f".format(dispAz)
+        binding.dispersionRight.text = turn(az, dispAz, artDegree).roundToInt().toString()
+        binding.dispersionLeft.text = turn(az, -dispAz, artDegree).roundToInt().toString()
+        binding.dispersionFB.text = elevation.roundToInt().toString()
+        val plus: Double
+        val minus: Double
+        if (hiSelected) {
+            plus = solutionHi(curSolution.v, range + disp, altDif)
+            minus = solutionHi(curSolution.v, range - disp, altDif)
+        }
+        else {
+            plus = solutionLo(curSolution.v, range + disp, altDif)
+            minus = solutionLo(curSolution.v, range - disp, altDif)
+        }
+        binding.dispersionFwd.text = round(plus).toInt().toString()
+        binding.dispersionBack.text = round(minus).toInt().toString()
+        binding.dispersionEl.text =  when {
+            plus.isNaN() -> "%.1f".format(abs(elevation - minus))
+            minus.isNaN() -> "%.1f".format(abs(elevation - plus))
+            else -> "%.1f".format(abs(plus - minus) / 2)
+        }
     }
 
     fun onClickHi(view: View) {

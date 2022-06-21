@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                             selectMortar("m252")
                         }
                 }
-                var d = findRange(mortarCharges!!.last() * muzzleVelocity!!, 45.0).roundToInt()
+                var d = findRange(mortarCharges!!.last(), 45.0).roundToInt()
                 minMax.text = "Max: ${d}m"
             }
         }

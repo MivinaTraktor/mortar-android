@@ -284,7 +284,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
         <EditText
-            android:id="@+id/dispersion"
+            android:id="@+id/fieldDisp"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -296,30 +296,30 @@
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/dispersionAz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="0.0"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@+id/dispersion"
-            app:layout_constraintEnd_toStartOf="@+id/dispersion"
+            app:layout_constraintBottom_toBottomOf="@+id/fieldDisp"
+            app:layout_constraintEnd_toStartOf="@+id/fieldDisp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/dispersion" />
+            app:layout_constraintTop_toTopOf="@+id/fieldDisp" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/dispersionEl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0.0"
             android:textAlignment="center"
             android:textColor="@android:color/holo_green_dark"
             android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@+id/dispersion"
+            app:layout_constraintBottom_toBottomOf="@+id/fieldDisp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dispersion"
-            app:layout_constraintTop_toTopOf="@+id/dispersion" />
+            app:layout_constraintStart_toEndOf="@+id/fieldDisp"
+            app:layout_constraintTop_toTopOf="@+id/fieldDisp" />
 
         <LinearLayout
             android:id="@+id/linearLayout8"
@@ -328,10 +328,10 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dispersion">
+            app:layout_constraintTop_toBottomOf="@+id/fieldDisp">
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/dispersionLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -341,7 +341,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/dispersionLR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -351,7 +351,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/dispersionRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -371,7 +371,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/dispersionFwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -380,7 +380,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/dispersionFB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -389,10 +389,11 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/dispersionBack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
+                android:textAlignment="center"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="18sp" />
         </LinearLayout>

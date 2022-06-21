@@ -23,8 +23,8 @@ class DirectActivity : AppCompatActivity() {
         range = binding.targetRange.text.toString().toDouble()
         altDif = binding.altDifDirect.text.toString().toDoubleOrNull() ?: 0.0
         calcCoordinates(mCoordinates.requireNoNulls(), range, 0.0, altDif)
-        val targetCalculated = target(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
-        if (chargesList(targetCalculated).isEmpty()) {
+        val firingData = FiringData(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
+        if (chargesList(firingData.range, firingData.altDif).isEmpty()) {
             Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
             return
         }
