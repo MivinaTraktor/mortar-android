@@ -20,32 +20,31 @@ fun calcCoordinates(startArray: List<Int>, range: Double, azimuth: Double, altDi
 
 fun chargesList(range: Double, altDif: Double): List<ChargePair> {
     val result: MutableList<ChargePair> = mutableListOf()
-    mortarCharges!!.forEachIndexed { i, v ->
+    mortarData.chargeSpeeds.forEachIndexed { i, v ->
         val solLo = solutionLo(v, range, altDif)
         val solHi = solutionHi(v, range, altDif)
         if (!(solHi.isNaN() && solLo.isNaN()))
-            result.add(ChargePair(i + 1, solHi, solLo, v))
+            result.add(ChargePair(i, solHi, solLo, v))
     }
     return result.toList()
 }
 
 fun solutionLo(v: Double, range: Double, altDif: Double): Double {
     val sol360Lo = atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
-    return sol360Lo / 360.0 * artDegree
+    return sol360Lo / 360.0 * mortarData.artDegree
 }
 
 fun solutionHi(v: Double, range: Double, altDif: Double): Double {
     val sol360Hi = atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
-    return sol360Hi / 360.0 * artDegree
+    return sol360Hi / 360.0 * mortarData.artDegree
 }
 
 fun turn(start: Double, value: Double, circle: Double): Double {
-    val res = when {
+    return when {
         start + value > circle -> start + value - circle
         start + value < 0.0 -> start + value + circle
         else -> start + value
     }
-    return res
 }
 
-fun calcDeflection(aof: Int, def: Int, az: Double): Double = turn(def.toDouble(), az - aof, artDegree)
+fun calcDeflection(aof: Int, def: Int, az: Double): Double = turn(def.toDouble(), az - aof, mortarData.artDegree)

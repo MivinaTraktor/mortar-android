@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickIndirect(view: View) {
         when { // ошибки
-            mortarCharges == null -> {
+            mortarData.chargeSpeeds.isNullOrEmpty() -> {
                 Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
                 return
             }
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickDirect(view: View) {
-        if (mortarCharges == null) {
+        if (mortarData.chargeSpeeds.isNullOrEmpty()) {
             Toast.makeText(applicationContext,"Select a mortar!", Toast.LENGTH_SHORT).show()
             return
         }
@@ -147,8 +147,12 @@ class MainActivity : AppCompatActivity() {
                         if (view.isChecked) {
                             selectMortar("m252")
                         }
+                    R.id.butm224 ->
+                        if (view.isChecked) {
+                            selectMortar("m224")
+                        }
                 }
-                var d = findRange(mortarCharges!!.last(), 45.0).roundToInt()
+                var d = findRange(mortarData.chargeSpeeds.last(), 45.0).roundToInt()
                 minMax.text = "Max: ${d}m"
             }
         }

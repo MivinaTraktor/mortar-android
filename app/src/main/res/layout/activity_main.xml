@@ -49,6 +49,14 @@
                 android:orientation="horizontal" android:id="@+id/rg">
 
             <RadioButton
+                android:id="@+id/butm224"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onMortarSelected"
+                android:text="M224" />
+
+            <RadioButton
                 android:id="@+id/but2b11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -24,7 +24,7 @@ class TargetActivity : AppCompatActivity() {
     private var azimuth = firingData.azimuth
     private var range = firingData.range
     private var altDif = firingData.altDif
-    private var azCor = 2 * PI * firingData.range / artDegree
+    private var azCor = 2 * PI * firingData.range / mortarData.artDegree
     private var solutions = chargesList(firingData.range, firingData.altDif)
     private var curSolution = solutions.first()
     private var hiSelected = true
@@ -79,8 +79,8 @@ class TargetActivity : AppCompatActivity() {
             curSolution.hi
         else
             curSolution.lo
-        binding.textViewCh.text = if (specialCharges != null)
-            specialCharges!![curSolution.charge]
+        binding.textViewCh.text = if (!mortarData.specialCharges.isNullOrEmpty())
+            mortarData.specialCharges[curSolution.charge]
         else
             curSolution.charge.toString()
         if (useDeflection) {
@@ -98,8 +98,8 @@ class TargetActivity : AppCompatActivity() {
         binding.dispersionLR.text = az.roundToInt().toString()
         val dispAz = disp / azCor
         binding.dispersionAz.text = "%.1f".format(dispAz)
-        binding.dispersionRight.text = turn(az, dispAz, artDegree).roundToInt().toString()
-        binding.dispersionLeft.text = turn(az, -dispAz, artDegree).roundToInt().toString()
+        binding.dispersionRight.text = turn(az, dispAz, mortarData.artDegree).roundToInt().toString()
+        binding.dispersionLeft.text = turn(az, -dispAz, mortarData.artDegree).roundToInt().toString()
         binding.dispersionFB.text = elevation.roundToInt().toString()
         val plus: Double
         val minus: Double
