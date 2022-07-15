@@ -15,8 +15,6 @@ class IndirectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIndirectBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.targetX.hint = zeros
-        binding.targetY.hint = zeros
         listOf(binding.targetX, binding.targetY, binding.targetAltIndirect).forEachIndexed { i, editText ->
             if (tCoordinates[i] != null)
                 editText.setText(tCoordinates[i].toString())
@@ -27,16 +25,18 @@ class IndirectActivity : AppCompatActivity() {
 
     fun onClickMortar(view: View) {
         listOf(binding.targetX.text.toString(), binding.targetY.text.toString(), binding.targetAltIndirect.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) field.toInt() else null
+            tCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
         }
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickDirect(view: View) {
-        listOf(binding.targetX.text.toString(), binding.targetY.text.toString(), binding.targetAltIndirect.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) field.toInt() else null
+        listOf(binding.targetX.text.toString(), binding.targetY.text.toString()).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
         }
+        val alt = binding.targetAltIndirect.text.toString()
+        tCoordinates[2] = if (alt.isNotEmpty()) alt.toInt() else null
         val intent = Intent(this, DirectActivity::class.java)
         startActivity(intent)
     }
@@ -51,10 +51,6 @@ class IndirectActivity : AppCompatActivity() {
             }
         }
         when {
-            binding.targetX.text.toString().length > zeros.length || binding.targetY.text.toString().length > zeros.length -> {
-                Toast.makeText(applicationContext,"Incorrect coordinate format!", Toast.LENGTH_SHORT).show()
-                return
-            }
             mCoordinates.contains(null) -> {
                 Toast.makeText(applicationContext, "Fill in all mortar coordinates!", Toast.LENGTH_SHORT).show()
                 return

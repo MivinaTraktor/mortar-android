@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:id="@+id/linearLayout">
         <Button
-                android:text="@string/mortarNav"
+                android:text="@string/batteryNav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonInd"
@@ -57,7 +57,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/digitsNotSelected"
+                android:hint="@string/zeros"
                 android:id="@+id/targetX"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
@@ -72,7 +72,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/digitsNotSelected"
+                android:hint="@string/zeros"
                 android:id="@+id/targetY"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"

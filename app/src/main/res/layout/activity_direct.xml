@@ -14,13 +14,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:id="@+id/linearLayout">
+
         <Button
-                android:text="@string/mortarNav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonInd"
-                android:layout_weight="1"
-                android:onClick="onClickMortar"/>
+            android:id="@+id/buttonInd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClickMortar"
+            android:text="@string/batteryNav" />
         <Button
                 android:text="@string/indirectNav"
                 android:layout_width="wrap_content"

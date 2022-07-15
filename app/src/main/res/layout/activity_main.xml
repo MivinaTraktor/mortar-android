@@ -42,52 +42,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent" android:id="@+id/linearLayout7">
-        <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:orientation="horizontal" android:id="@+id/rg">
-
-            <RadioButton
-                android:id="@+id/butm224"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onMortarSelected"
-                android:text="M224" />
-
-            <RadioButton
-                android:id="@+id/but2b11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onMortarSelected"
-                android:text="2B11" />
-
-            <RadioButton
-                android:id="@+id/but2b14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onMortarSelected"
-                android:text="2B14" />
-
-            <RadioButton
-                android:id="@+id/butd30"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onMortarSelected"
-                android:text="D-30" />
-
-            <RadioButton
-                android:id="@+id/butm252"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onMortarSelected"
-                android:text="M252" />
-        </RadioGroup>
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -101,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Coordinate digits:" />
+                android:text="Artillery type:" />
 
             <Spinner
                 android:id="@+id/digitsSpinner"
@@ -118,14 +72,15 @@
                 android:textStyle="italic" />
 
         </LinearLayout>
+
         <TextView
-                android:text="Mortar coordinates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="40sp"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Battery coordinates"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="bold" />
         <TextView
                 android:text="@string/X"
                 android:layout_width="match_parent"
@@ -136,7 +91,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/digitsNotSelected"
+                android:hint="@string/zeros"
                 android:id="@+id/mortarX"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
@@ -151,7 +106,7 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/digitsNotSelected"
+                android:hint="@string/zeros"
                 android:id="@+id/mortarY"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"

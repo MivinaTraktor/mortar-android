@@ -13,9 +13,18 @@ fun Double.toDegrees(): Double = this * 180.0 / PI
 
 fun calcCoordinates(startArray: List<Int>, range: Double, azimuth: Double, altDif: Double) {
     val rad = azimuth.toRadian()
-    tCoordinates[0] = (range * sin(rad) / rangeMultiplier + startArray[0]).roundToInt()
-    tCoordinates[1] = (range * cos(rad) / rangeMultiplier + startArray[1]).roundToInt()
+    tCoordinates[0] = (range * sin(rad) + startArray[0]).roundToInt()
+    tCoordinates[1] = (range * cos(rad) + startArray[1]).roundToInt()
     tCoordinates[2] = (altDif + startArray[2]).roundToInt()
+}
+
+fun formatCoordinates(s: String): Int {
+    if (s.all { it == '0' })
+        return s.toInt()
+    var res = s
+    for (i in 0 until 5 - s.length)
+        res = res.plus(4)
+    return res.toInt()
 }
 
 fun chargesList(range: Double, altDif: Double): List<ChargePair> {
@@ -30,12 +39,14 @@ fun chargesList(range: Double, altDif: Double): List<ChargePair> {
 }
 
 fun solutionLo(v: Double, range: Double, altDif: Double): Double {
-    val sol360Lo = atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
+    val sol360Lo =
+        atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
     return sol360Lo / 360.0 * mortarData.artDegree
 }
 
 fun solutionHi(v: Double, range: Double, altDif: Double): Double {
-    val sol360Hi = atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
+    val sol360Hi =
+        atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
     return sol360Hi / 360.0 * mortarData.artDegree
 }
 
@@ -47,4 +58,5 @@ fun turn(start: Double, value: Double, circle: Double): Double {
     }
 }
 
-fun calcDeflection(aof: Int, def: Int, az: Double): Double = turn(def.toDouble(), az - aof, mortarData.artDegree)
+fun calcDeflection(aof: Int, def: Int, az: Double): Double =
+    turn(def.toDouble(), az - aof, mortarData.artDegree)
