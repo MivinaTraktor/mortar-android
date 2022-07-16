@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/zero"
-                android:id="@+id/targetRange"
+                android:id="@+id/range"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
                 android:textAlignment="center"/>
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/zero"
-                android:id="@+id/altDifDirect"
+                android:id="@+id/altDif"
                 android:layout_marginHorizontal="20dp"
                 android:textSize="36sp"
                 android:textAlignment="center"/>

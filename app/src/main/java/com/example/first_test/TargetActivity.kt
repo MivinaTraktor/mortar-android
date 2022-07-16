@@ -17,6 +17,7 @@ import kotlin.math.*
 class TargetActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTargetBinding
+
     private var firingData = FiringData(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
     private var elevation = 0.0
     private var deflection = 0.0

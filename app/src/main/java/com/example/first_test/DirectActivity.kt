@@ -3,6 +3,7 @@ package com.example.first_test
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.first_test.databinding.ActivityDirectBinding
@@ -20,12 +21,16 @@ class DirectActivity : AppCompatActivity() {
     }
 
     fun onClickCalculate(view: View) {
-        range = binding.targetRange.text.toString().toDouble()
-        altDif = binding.altDifDirect.text.toString().toDoubleOrNull() ?: 0.0
+        if (binding.range.text.toString().isEmpty()) {
+            Toast.makeText(applicationContext, "No range!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        range = binding.range.text.toString().toDouble()
+        altDif = binding.altDif.text.toString().toDoubleOrNull() ?: 0.0
         calcCoordinates(mCoordinates.requireNoNulls(), range, 0.0, altDif)
         val firingData = FiringData(mCoordinates.requireNoNulls(), tCoordinates.requireNoNulls())
         if (chargesList(firingData.range, firingData.altDif).isEmpty()) {
-            Toast.makeText(applicationContext, "Unable to fire at this range!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Invalid range!", Toast.LENGTH_SHORT).show()
             return
         }
         val intent = Intent(this, TargetActivity::class.java)

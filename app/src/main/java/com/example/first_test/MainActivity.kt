@@ -12,12 +12,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var minMax: TextView
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mortarX: EditText
+    private lateinit var mortarY: EditText
+    private lateinit var mortarAlt: EditText
+    private lateinit var azOfFire: EditText
+    private lateinit var initDef: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         minMax = binding.minMaxDist
+        mortarX = binding.mortarX
+        mortarY = binding.mortarY
+        mortarAlt = binding.mortarAlt
+        azOfFire = binding.azOfFire
+        initDef = binding.initDef
         val spinner: Spinner = binding.digitsSpinner
         ArrayAdapter(
             this,
@@ -54,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        listOf(binding.mortarX, binding.mortarY, binding.mortarAlt).forEachIndexed { i, editText ->
+        listOf(mortarX, mortarY, mortarAlt).forEachIndexed { i, editText ->
             if (mCoordinates[i] != null)
                 editText.setText(mCoordinates[i].toString())
             else
@@ -79,9 +89,20 @@ class MainActivity : AppCompatActivity() {
             mCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
         }
         val alt = binding.mortarAlt.text.toString()
-        mCoordinates[2] = if (alt.isNotEmpty()) alt.toInt() else null
-        listOf(binding.azOfFire.text.toString(),binding.initDef.text.toString()).forEachIndexed { i, field ->
-            deflectionArray[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
+        mCoordinates[2] = alt.toIntOrNull()
+        if (useDeflection) {
+            listOf(azOfFire.text.toString(), initDef.text.toString()).forEachIndexed { i, field ->
+                if (field.isNotEmpty())
+                    deflectionArray[i] = field.toInt()
+                else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Fill in both deflection values!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
+                }
+            }
         }
         val intent = Intent(this, IndirectActivity::class.java)
         startActivity(intent)
@@ -92,8 +113,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,"Select artillery type!", Toast.LENGTH_SHORT).show()
             return
         }
-        listOf(binding.mortarX.text.toString(), binding.mortarY.text.toString(),
-            binding.mortarAlt.text.toString()).forEachIndexed { i, field->
+        listOf(mortarX.text.toString(), mortarY.text.toString(),
+            mortarAlt.text.toString()).forEachIndexed { i, field->
             if (field.isNotEmpty())
                 mCoordinates[i] = formatCoordinates(field) else mCoordinates[i] = null
         }
@@ -102,10 +123,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickClear(view: View) {
-        listOf(binding.mortarX, binding.mortarY, binding.mortarAlt,
+        listOf(mortarX, mortarY, mortarAlt,
             binding.azOfFire, binding.initDef).forEach {
             it.text?.clear()
         }
-        mCoordinates = MutableList(3) { null }
     }
 }
