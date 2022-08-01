@@ -18,37 +18,44 @@ fun calcCoordinates(startArray: List<Int>, range: Double, azimuth: Double, altDi
     tCoordinates[2] = (altDif + startArray[2]).roundToInt()
 }
 
-fun formatCoordinates(s: String): Int {
+fun inCoord(s: String): Int {
     if (s.all { it == '0' })
         return s.toInt()
-    var res = s
-    for (i in 0 until 5 - s.length)
-        res = res.plus(4)
-    return res.toInt()
+    return s.padEnd(5, '4').toInt()
+}
+
+fun outCoord(num: Int): String {
+    if (num == 0)
+        return num.toString()
+    return num.toString().padStart(5, '0')
 }
 
 fun chargesList(range: Double, altDif: Double): List<ChargePair> {
     val result: MutableList<ChargePair> = mutableListOf()
     mortarData.chargeSpeeds.forEachIndexed { i, v ->
-        val solLo = solutionLo(v, range, altDif)
-        val solHi = solutionHi(v, range, altDif)
-        if (!(solHi.isNaN() && solLo.isNaN()))
-            result.add(ChargePair(i, solHi, solLo, v))
+        val lo = atanLo(v, range, altDif)
+        val hi = atanHi(v, range, altDif)
+        if (!(lo.isNaN() && hi.isNaN())) {
+            val loTime = range / (v * cos(lo))
+            val hiTime = range / (v * cos(hi))
+            result.add(
+                ChargePair(
+                    i, lo.toArtDegrees(), loTime,
+                    hi.toArtDegrees(), hiTime, v
+                )
+            )
+        }
     }
     return result.toList()
 }
 
-fun solutionLo(v: Double, range: Double, altDif: Double): Double {
-    val sol360Lo =
-        atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
-    return sol360Lo / 360.0 * mortarData.artDegree
-}
+fun atanLo(v: Double, range: Double, altDif: Double): Double =
+    atan((v.pow(2) - sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range))
 
-fun solutionHi(v: Double, range: Double, altDif: Double): Double {
-    val sol360Hi =
-        atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range)).toDegrees()
-    return sol360Hi / 360.0 * mortarData.artDegree
-}
+fun atanHi(v: Double, range: Double, altDif: Double): Double =
+    atan((v.pow(2) + sqrt(v.pow(4) - G * ((G * range.pow(2)) + (2 * altDif * v.pow(2))))) / (G * range))
+
+fun Double.toArtDegrees(): Double = this.toDegrees() / 360.0 * mortarData.artDegree
 
 fun turn(start: Double, value: Double, circle: Double): Double {
     return when {

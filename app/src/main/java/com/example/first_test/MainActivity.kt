@@ -64,17 +64,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        listOf(mortarX, mortarY, mortarAlt).forEachIndexed { i, editText ->
+        listOf(mortarX, mortarY).forEachIndexed { i, editText ->
             if (mCoordinates[i] != null)
-                editText.setText(mCoordinates[i].toString())
+                editText.setText(outCoord(mCoordinates[i]!!))
             else
                 editText.setText("")
         }
+        mortarAlt.setText(mCoordinates[2]?.toString().orEmpty())
         listOf(binding.azOfFire, binding.initDef).forEachIndexed { i, editText ->
-            if (deflectionArray[i] != null)
-                editText.setText(deflectionArray[i].toString())
-            else
-                editText.setText("")
+            editText.setText(deflectionArray[i]?.toString().orEmpty())
         }
     }
 
@@ -86,10 +84,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         listOf(binding.mortarX.text.toString(), binding.mortarY.text.toString()).forEachIndexed { i, field->
-            mCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
+            mCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
         }
-        val alt = binding.mortarAlt.text.toString()
-        mCoordinates[2] = alt.toIntOrNull()
+        mCoordinates[2] = binding.mortarAlt.text.toString().toIntOrNull()
         if (useDeflection) {
             listOf(azOfFire.text.toString(), initDef.text.toString()).forEachIndexed { i, field ->
                 if (field.isNotEmpty())
@@ -116,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         listOf(mortarX.text.toString(), mortarY.text.toString(),
             mortarAlt.text.toString()).forEachIndexed { i, field->
             if (field.isNotEmpty())
-                mCoordinates[i] = formatCoordinates(field) else mCoordinates[i] = null
+                mCoordinates[i] = inCoord(field) else mCoordinates[i] = null
         }
         val intent = Intent(this, DirectActivity::class.java)
         startActivity(intent)

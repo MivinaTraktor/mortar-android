@@ -22,38 +22,38 @@ class IndirectActivity : AppCompatActivity() {
         targetX = binding.targetX
         targetY = binding.targetY
         targetAlt = binding.targetAlt
-        listOf(targetX, targetY, targetAlt).forEachIndexed { i, editText ->
+        listOf(targetX, targetY).forEachIndexed { i, editText ->
             if (tCoordinates[i] != null)
-                editText.setText(tCoordinates[i].toString())
+                editText.setText(outCoord(tCoordinates[i]!!))
             else
                 editText.setText("")
         }
+        targetAlt.setText(tCoordinates[2]?.toString().orEmpty())
     }
 
     fun onClickMortar(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString(), targetAlt.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
+        listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
         }
+        tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickDirect(view: View) {
         listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
         }
-        val alt = targetAlt.text.toString()
-        tCoordinates[2] = alt.toIntOrNull()
+        tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         val intent = Intent(this, DirectActivity::class.java)
         startActivity(intent)
     }
 
     fun onClickCalculate(view: View) {
         listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field->
-            tCoordinates[i] = if (field.isNotEmpty()) formatCoordinates(field) else null
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
         }
-        val alt = targetAlt.text.toString()
-        tCoordinates[2] = alt.toIntOrNull()
+        tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         when {
             mCoordinates.contains(null) -> {
                 Toast.makeText(applicationContext, "Fill in all mortar coordinates!", Toast.LENGTH_SHORT).show()

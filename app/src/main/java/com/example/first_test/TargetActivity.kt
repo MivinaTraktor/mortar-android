@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -29,6 +30,8 @@ class TargetActivity : AppCompatActivity() {
     private var solutions = chargesList(firingData.range, firingData.altDif)
     private var curSolution = solutions.first()
     private var hiSelected = true
+    private var timer: CountDownTimer? = null
+    private var time = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,10 +79,14 @@ class TargetActivity : AppCompatActivity() {
     }
 
     private fun updateValues() {
-        elevation = if (hiSelected)
-            curSolution.hi
-        else
-            curSolution.lo
+        if (hiSelected) {
+            elevation = curSolution.hi
+            time = curSolution.hiTime
+        }
+        else {
+            elevation = curSolution.lo
+            time = curSolution.loTime
+        }
         binding.textViewCh.text = if (!mortarData.specialCharges.isNullOrEmpty())
             mortarData.specialCharges[curSolution.charge]
         else
@@ -92,6 +99,7 @@ class TargetActivity : AppCompatActivity() {
             binding.textViewAz.text = firingData.azimuth.roundToInt().toString()
         binding.textViewEl.text = elevation.roundToInt().toString()
         setDispersion(binding.fieldDisp.text.toString().toDoubleOrNull() ?: 0.0)
+        binding.textViewTof.text = "%.1f".format(time)
     }
 
     private fun setDispersion(disp: Double) {
@@ -105,12 +113,12 @@ class TargetActivity : AppCompatActivity() {
         val plus: Double
         val minus: Double
         if (hiSelected) {
-            plus = solutionHi(curSolution.v, range + disp, altDif)
-            minus = solutionHi(curSolution.v, range - disp, altDif)
+            plus = atanHi(curSolution.v, range + disp, altDif).toArtDegrees()
+            minus = atanHi(curSolution.v, range - disp, altDif).toArtDegrees()
         }
         else {
-            plus = solutionLo(curSolution.v, range + disp, altDif)
-            minus = solutionLo(curSolution.v, range - disp, altDif)
+            plus = atanLo(curSolution.v, range + disp, altDif).toArtDegrees()
+            minus = atanLo(curSolution.v, range - disp, altDif).toArtDegrees()
         }
         binding.dispersionFwd.text = round(plus).toInt().toString()
         binding.dispersionBack.text = round(minus).toInt().toString()
@@ -133,6 +141,25 @@ class TargetActivity : AppCompatActivity() {
         binding.buttonHi.backgroundTintList = ColorStateList.valueOf(Color.LTGRAY)
         hiSelected = false
         updateValues()
+    }
+
+    fun onClickShot(view: View) {
+        timer?.cancel()
+        timer = object: CountDownTimer((time * 1000.0).toLong(), 100) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.textViewTof.text = "%.1f".format(millisUntilFinished.toInt().toFloat() / 1000L)
+            }
+
+            override fun onFinish() {
+                Thread.sleep(2000)
+                binding.textViewTof.text = "%.1f".format(time)
+            }
+        }.start()
+    }
+
+    fun onClickTofReset(view: View) {
+        timer?.cancel()
+        binding.textViewTof.text = "%.1f".format(time)
     }
 
     fun Fragment.hideKeyboard() {

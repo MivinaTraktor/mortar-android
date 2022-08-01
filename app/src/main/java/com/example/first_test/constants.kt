@@ -4,7 +4,8 @@ import kotlin.math.PI
 import kotlin.math.atan
 import kotlin.math.hypot
 
-data class ChargePair(val charge: Int, val hi: Double, val lo: Double, val v: Double)
+data class ChargePair(val charge: Int, val lo: Double, val loTime: Double,
+                      val hi: Double, val hiTime: Double, val v: Double)
 
 class FiringData(private val mortar: List<Int>, private val target: List<Int>) {
     val range = hypot(((target[0] - mortar[0]).toDouble()), ((target[1] - mortar[1]).toDouble()))
