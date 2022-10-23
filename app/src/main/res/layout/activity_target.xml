@@ -216,17 +216,18 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:onClick="onClickOkCorrection"
             android:text="@string/ok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         <EditText
-            android:id="@+id/leftRight"
+            android:id="@+id/eastWest"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Left/Right"
+            android:hint="E/W"
             android:inputType="numberSigned"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/btnCorOk"
@@ -234,11 +235,11 @@
             app:layout_constraintTop_toTopOf="@+id/btnCorOk" />
 
         <EditText
-            android:id="@+id/fwdBack"
+            android:id="@+id/northSouth"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Fwd/Back"
+            android:hint="N/S"
             android:inputType="numberSigned"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/btnCorOk"
@@ -260,6 +261,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_blue_light"
+                android:onClick="onClickAnchor"
                 android:text="Anchor" />
 
             <Button
@@ -268,6 +270,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/holo_red_light"
+                android:onClick="onClickResetCorrection"
                 android:text="@string/reset" />
 
         </LinearLayout>

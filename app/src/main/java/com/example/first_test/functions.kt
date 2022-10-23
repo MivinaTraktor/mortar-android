@@ -67,3 +67,17 @@ fun turn(start: Double, value: Double, circle: Double): Double {
 
 fun calcDeflection(aof: Int, def: Int, az: Double): Double =
     turn(def.toDouble(), az - aof, mortarData.artDegree)
+
+fun heightInterpolation(x: Int, y: Int): String {
+    val xLast = x % 10
+    val yLast = y % 10
+    val x1 = (x - xLast) / 10
+    val x2 = x1 + 1
+    val y1 = (y - yLast) / 10
+    val y2 = y1 + 1
+    val xRatio = xLast / 10.0
+    val yRatio = yLast / 10.0
+    val y1val = (heightArr[x2][y1] - heightArr[x1][y1]) * xRatio + heightArr[x1][y1]
+    val y2val = (heightArr[x2][y2] - heightArr[x1][y2]) * xRatio + heightArr[x1][y2]
+    return ((y2val - y1val) * yRatio + y1val).roundToInt().toString()
+}

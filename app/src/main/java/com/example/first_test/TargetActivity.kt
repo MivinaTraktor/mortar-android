@@ -11,6 +11,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.first_test.databinding.ActivityTargetBinding
 import kotlin.math.*
@@ -26,9 +27,9 @@ class TargetActivity : AppCompatActivity() {
     private var azimuth = firingData.azimuth
     private var range = firingData.range
     private var altDif = firingData.altDif
-    private var azCor = 2 * PI * firingData.range / mortarData.artDegree
-    private var solutions = chargesList(firingData.range, firingData.altDif)
-    private var curSolution = solutions.first()
+    private var azCor = 0.0
+    private lateinit var solutions: List<ChargePair>
+    private lateinit var curSolution: ChargePair
     private var hiSelected = true
     private var timer: CountDownTimer? = null
     private var time = 0.0
@@ -41,16 +42,7 @@ class TargetActivity : AppCompatActivity() {
         binding.altDifLabel.text = altDif.toInt().toString()
         if (useDeflection) binding.textLabelAz.text = "Deflection"
         binding.fieldDisp.setText(stdDispersion.toString())
-        onClickHi(binding.root)
-
-        binding.textViewEl.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
+        applyData()
 
         binding.fieldDisp.addTextChangedListener(object : TextWatcher {
 
@@ -60,6 +52,56 @@ class TargetActivity : AppCompatActivity() {
                 setDispersion(s.toString().toDoubleOrNull() ?: 0.0)
             }
         })
+    }
+
+    fun applyData() {
+        solutions = chargesList(range, altDif)
+        curSolution = solutions[curNumber]
+        azCor = 2 * PI * range / mortarData.artDegree
+        if (hiSelected) onClickHi(binding.root)
+        else onClickLo(binding.root)
+    }
+
+    fun onClickOkCorrection(view: View) {
+        val x = binding.eastWest.text.toString().toIntOrNull() ?: 0
+        val y = binding.northSouth.text.toString().toIntOrNull() ?: 0
+        val newData = FiringData(mCoordinates.requireNoNulls(), listOf(tCoordinates[0]!! + x, tCoordinates[1]!! + y, tCoordinates[2]!!))
+        if (chargesList(newData.range, newData.altDif).isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid range!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        range = newData.range
+        azimuth = newData.azimuth
+        binding.rngLabel.text = range.roundToInt().toString()
+        applyData()
+        binding.eastWest.clearFocus()
+        binding.northSouth.clearFocus()
+        hideKeyboard()
+    }
+
+    fun onClickAnchor(view: View) {
+        val x = tCoordinates[0]!! + (binding.eastWest.text.toString().toIntOrNull() ?: 0)
+        val y = tCoordinates[1]!! + (binding.northSouth.text.toString().toIntOrNull() ?: 0)
+        val firingDataNew = FiringData(mCoordinates.requireNoNulls(), listOf(x, y, tCoordinates[2]!!))
+        if (chargesList(firingDataNew.range, firingDataNew.altDif).isEmpty()) {
+            Toast.makeText(applicationContext, "Invalid range!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        tCoordinates[0] = x
+        tCoordinates[1] = y
+        firingData = firingDataNew
+        range = firingData.range
+        azimuth = firingData.azimuth
+        applyData()
+        clearCorrFields()
+    }
+
+    fun onClickResetCorrection(view: View) {
+        clearCorrFields()
+        range = firingData.range
+        azimuth = firingData.azimuth
+        binding.rngLabel.text = range.roundToInt().toString()
+        applyData()
     }
 
     fun onClickPlus(view: View) {
@@ -96,7 +138,7 @@ class TargetActivity : AppCompatActivity() {
             binding.textViewAz.text = deflection.roundToInt().toString()
         }
         else
-            binding.textViewAz.text = firingData.azimuth.roundToInt().toString()
+            binding.textViewAz.text = azimuth.roundToInt().toString()
         binding.textViewEl.text = elevation.roundToInt().toString()
         setDispersion(binding.fieldDisp.text.toString().toDoubleOrNull() ?: 0.0)
         binding.textViewTof.text = "%.1f".format(time)
@@ -160,6 +202,13 @@ class TargetActivity : AppCompatActivity() {
     fun onClickTofReset(view: View) {
         timer?.cancel()
         binding.textViewTof.text = "%.1f".format(time)
+    }
+
+    fun clearCorrFields() {
+        binding.eastWest.text.clear()
+        binding.northSouth.text.clear()
+        binding.eastWest.clearFocus()
+        binding.northSouth.clearFocus()
     }
 
     fun Fragment.hideKeyboard() {

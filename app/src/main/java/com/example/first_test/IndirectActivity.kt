@@ -32,8 +32,8 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickMortar(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
+        listOf(targetX.text, targetY.text).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field.toString()) else null
         }
         tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         val intent = Intent(this, MainActivity::class.java)
@@ -41,8 +41,8 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickDirect(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field ->
-            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
+        listOf(targetX.text, targetY.text).forEachIndexed { i, field ->
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field.toString()) else null
         }
         tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         val intent = Intent(this, DirectActivity::class.java)
@@ -50,8 +50,8 @@ class IndirectActivity : AppCompatActivity() {
     }
 
     fun onClickCalculate(view: View) {
-        listOf(targetX.text.toString(), targetY.text.toString()).forEachIndexed { i, field->
-            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field) else null
+        listOf(targetX.text, targetY.text).forEachIndexed { i, field->
+            tCoordinates[i] = if (field.isNotEmpty()) inCoord(field.toString()) else null
         }
         tCoordinates[2] = targetAlt.text.toString().toIntOrNull()
         when {
@@ -77,6 +77,15 @@ class IndirectActivity : AppCompatActivity() {
         targetX.text?.clear()
         targetY.text?.clear()
         targetAlt.text?.clear()
+    }
+
+    fun onClickFillIn(view: View) {
+        targetAlt.setText(
+            heightInterpolation(
+                x = if (targetX.text.isNotEmpty()) inCoord(targetX.text.toString()) else 0,
+                y = if (targetY.text.isNotEmpty()) inCoord(targetY.text.toString()) else 0
+            )
+        )
     }
 }
 
