@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            mapArray
+            assets.list("maps")!!.map { it.dropLast(4) }
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerMap.adapter = adapter
@@ -68,11 +68,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 spinnerMapPos = pos
-                val fileText: String = applicationContext.assets.open(parent!!.getItemAtPosition(pos).toString() + ".txt").bufferedReader().use {
-                    it.readText()
+                val fileText: String = assets.open("maps/" + parent!!.getItemAtPosition(pos).toString() + ".txt")
+                        .bufferedReader().use {
+                    it.readText().removeSuffix(lineDelimiter)
                 }
-                heightArr = fileText.split("\n").map { str ->
-                    str.split(",").map { it.toDouble() }
+                heightArr = fileText.split(lineDelimiter).map { str ->
+                    str.split(entryDelimiter).map { it.toInt() }
                 }
             }
         }
