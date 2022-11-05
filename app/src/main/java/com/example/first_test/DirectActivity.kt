@@ -59,10 +59,10 @@ class DirectActivity : AppCompatActivity() {
                 azimuth.text.toString().toDoubleOrNull() ?: 0.0,
                 0.0)
             altDif.setText(
-                heightInterpolation(
-                    x = tCoordinates[0]!!,
-                    y = tCoordinates[1]!!
-                )
+                    heightInterpolation(
+                            x = tCoordinates[0]!!,
+                            y = tCoordinates[1]!!
+                    ).toInt() - mCoordinates[2]!!
             )
         }
 
