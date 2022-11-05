@@ -94,6 +94,7 @@ class TargetActivity : AppCompatActivity() {
         azimuth = firingData.azimuth
         applyData()
         clearCorrFields()
+        hideKeyboard()
     }
 
     fun onClickResetCorrection(view: View) {
@@ -102,6 +103,7 @@ class TargetActivity : AppCompatActivity() {
         azimuth = firingData.azimuth
         binding.rngLabel.text = range.roundToInt().toString()
         applyData()
+        hideKeyboard()
     }
 
     fun onClickPlus(view: View) {
@@ -209,18 +211,5 @@ class TargetActivity : AppCompatActivity() {
         binding.northSouth.text.clear()
         binding.eastWest.clearFocus()
         binding.northSouth.clearFocus()
-    }
-
-    fun Fragment.hideKeyboard() {
-        view?.let { activity?.hideKeyboard(it) }
-    }
-
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

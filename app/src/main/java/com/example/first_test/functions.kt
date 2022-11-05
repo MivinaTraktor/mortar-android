@@ -1,5 +1,10 @@
 package com.example.first_test
 
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import kotlin.math.*
 
 fun findRange(v: Double, angle: Double): Double {
@@ -80,4 +85,17 @@ fun heightInterpolation(x: Int, y: Int, step: Int = 10): String {
     val y1val = (heightArr[y1][x2] - heightArr[y1][x1]) * xRatio + heightArr[y1][x1]
     val y2val = (heightArr[y2][x2] - heightArr[y2][x1]) * xRatio + heightArr[y2][x1]
     return ((y2val - y1val) * yRatio + y1val).roundToInt().toString()
+}
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
